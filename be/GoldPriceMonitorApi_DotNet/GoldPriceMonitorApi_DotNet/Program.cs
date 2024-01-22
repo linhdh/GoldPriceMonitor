@@ -1,5 +1,6 @@
 
 using GoldPriceMonitorApi_DotNet.Database;
+using GoldPriceMonitorApi_DotNet.Services;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ namespace GoldPriceMonitorApi_DotNet
             builder.Services.AddHangfire(configuration => configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_180).UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnection")));
 
             builder.Services.AddHangfireServer();
+
+            builder.Services.AddScoped<IHangFireService, HangFireService>();
 
             var app = builder.Build();
 
