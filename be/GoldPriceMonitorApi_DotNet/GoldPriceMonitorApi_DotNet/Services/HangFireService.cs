@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml;
@@ -22,6 +23,8 @@ namespace GoldPriceMonitorApi_DotNet.Services
         public async Task GetBTMC()
         {
             HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));    /*!important*/
             var httpResponseMessage = await client.GetAsync(_BTMCLink);
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
@@ -37,21 +40,30 @@ namespace GoldPriceMonitorApi_DotNet.Services
             document.LoadXml(resultString);
             XmlNodeList xmlNodeList = document.GetElementsByTagName("Data");
             List<BaoTinMinhChau> baoTinMinhChaus = new List<BaoTinMinhChau>();
+            CultureInfo vietnamCultureInfo = new CultureInfo("vi-VN", false);
+            var findDupList = _dbContext.BaoTinMinhChaus.Where(b => b.ThoiGianNhap.Date == DateTime.Now.Date);
 
             foreach (XmlNode xmlNode in xmlNodeList)
             {
                 BaoTinMinhChau baoTinMinhChau = new BaoTinMinhChau();
                 baoTinMinhChau.Name = xmlNode.Attributes![1]!.Value;
-                baoTinMinhChau.HamLuongKara = xmlNode.Attributes![1]!.Value;
-                baoTinMinhChau.HamLuongVang = xmlNode.Attributes![2]!.Value;
-                baoTinMinhChau.GiaMuaVao = float.Parse(xmlNode.Attributes![3]!.Value, CultureInfo.InvariantCulture.NumberFormat);
-                baoTinMinhChau.GiaBanRa = float.Parse(xmlNode.Attributes![4]!.Value, CultureInfo.InvariantCulture.NumberFormat);
-                baoTinMinhChau.GiaTheGioi = float.Parse(xmlNode.Attributes![5]!.Value, CultureInfo.InvariantCulture.NumberFormat);
-                baoTinMinhChau.ThoiGianNhap = DateTime.Parse(xmlNode.Attributes![6]!.Value, CultureInfo.InvariantCulture.DateTimeFormat);
-                baoTinMinhChaus.Add(baoTinMinhChau);
+                baoTinMinhChau.HamLuongKara = xmlNode.Attributes![2]!.Value;
+                baoTinMinhChau.HamLuongVang = xmlNode.Attributes![3]!.Value;
+                baoTinMinhChau.GiaMuaVao = float.Parse(xmlNode.Attributes![4]!.Value, vietnamCultureInfo);
+                baoTinMinhChau.GiaBanRa = float.Parse(xmlNode.Attributes![5]!.Value, vietnamCultureInfo);
+                baoTinMinhChau.GiaTheGioi = float.Parse(xmlNode.Attributes![6]!.Value, vietnamCultureInfo);
+                baoTinMinhChau.ThoiGianNhap = DateTime.Parse(xmlNode.Attributes![7]!.Value, vietnamCultureInfo);
+                if (findDupList.Where(b => b.Name == baoTinMinhChau.Name && b.HamLuongKara == baoTinMinhChau.HamLuongKara && b.HamLuongVang == baoTinMinhChau.HamLuongVang && b.ThoiGianNhap == baoTinMinhChau.ThoiGianNhap).SingleOrDefault() == null)
+                {
+                    baoTinMinhChaus.Add(baoTinMinhChau);
+                }
             }
-            await _dbContext.AddRangeAsync(baoTinMinhChaus);
-            await _dbContext.SaveChangesAsync();
+
+            if (baoTinMinhChaus.Count > 0)
+            {
+                await _dbContext.BaoTinMinhChaus.AddRangeAsync(baoTinMinhChaus);
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         public Task GetSJC()
