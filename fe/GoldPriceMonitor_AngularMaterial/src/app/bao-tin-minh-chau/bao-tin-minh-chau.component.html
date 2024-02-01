@@ -1,1 +1,39 @@
-<p>bao-tin-minh-chau works!</p>
+<div class="button-row">
+    <button mat-button mat-raised-button color="primary" (click)="randomize()">
+      Ngày hôm nay
+    </button>
+    <button mat-button mat-raised-button color="primary" (click)="pushOne()">
+      Tuần
+    </button>
+    <button mat-button mat-raised-button color="primary" (click)="changeColor()">
+      Tháng
+    </button>
+    <button mat-button mat-raised-button color="primary" (click)="hideOne()">
+      Năm
+    </button>
+    <button mat-button mat-raised-button color="primary" (click)="changeLabel()">
+      Tự chọn
+    </button>
+</div>
+<canvas
+  baseChart
+  class="chart"
+  [data]="lineChartData"
+  [options]="lineChartOptions"
+  [type]="lineChartType"
+  (chartHover)="chartHovered($event)"
+  (chartClick)="chartClicked($event)"
+></canvas>
+<table>
+  <tr>
+    <th *ngFor="let label of lineChartData.labels">{{ label }}</th>
+  </tr>
+  <tr
+    *ngFor="let d of lineChartData.datasets; let i = index"
+    [class]="'line-' + i"
+  >
+    <td *ngFor="let label of lineChartData.labels; let j = index">
+      {{ d && d.data[j] }}
+    </td>
+  </tr>
+</table>
