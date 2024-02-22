@@ -37,7 +37,7 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
         [HttpGet("Today")]
         public async Task<ActionResult<IEnumerable<BaoTinMinhChau>>> GetToday([FromQuery] GoldType type)
         {
-            var baoTinMinhChau = await _context.BaoTinMinhChaus.Where(b => b.Name == type.Name && b.HamLuongVang == type.HamLuongVang && b.HamLuongKara == type.HamLuongKara && b.ThoiGianNhap.Date == DateTime.Now.Date).Select(b => new BaoTinMinhChau()
+            var baoTinMinhChau = await _context.BaoTinMinhChaus.Where(b => b.Name == type.Name && b.HamLuongVang == type.HamLuongVang && b.HamLuongKara == type.HamLuongKara && b.ThoiGianNhap.Date == DateTime.Now.Date).OrderBy(b => b.ThoiGianNhap).Select(b => new BaoTinMinhChau()
             {
                 Id = b.Id, 
                 Name = b.Name, 
