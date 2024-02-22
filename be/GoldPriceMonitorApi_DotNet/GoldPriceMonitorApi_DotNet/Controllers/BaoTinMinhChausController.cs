@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GoldPriceMonitorApi_DotNet.Database;
 using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController;
+using Microsoft.AspNetCore.Cors;
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {
+    [EnableCors("MyCORSPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class BaoTinMinhChausController : ControllerBase
@@ -22,8 +24,8 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
         }
 
         // GET: api/BaoTinMinhChaus
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<GoldType>>> GetNames()
+        [HttpGet("GoldTypes")]
+        public async Task<ActionResult<IEnumerable<GoldType>>> GetTypes()
         {
             return await _context.BaoTinMinhChaus.GroupBy(b => new { b.Name, b.HamLuongKara, b.HamLuongVang }).Select(b => new GoldType() { 
                 Name = b.Key.Name, 
@@ -32,8 +34,8 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
             }).ToListAsync();
         }
 
-        [HttpGet("ByType")]
-        public async Task<ActionResult<IEnumerable<BaoTinMinhChau>>> GetBaoTinMinhChauToday([FromQuery] GoldType type)
+        [HttpGet("Today")]
+        public async Task<ActionResult<IEnumerable<BaoTinMinhChau>>> GetToday([FromQuery] GoldType type)
         {
             var baoTinMinhChau = await _context.BaoTinMinhChaus.Where(b => b.Name == type.Name && b.HamLuongVang == type.HamLuongVang && b.HamLuongKara == type.HamLuongKara && b.ThoiGianNhap.Date == DateTime.Now.Date).Select(b => new BaoTinMinhChau()
             {

@@ -20,6 +20,14 @@ namespace GoldPriceMonitorApi_DotNet
 
             builder.Services.AddControllers();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyCORSPolicy", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200", "http://localhost:4200/").AllowAnyMethod();
+                });
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -43,6 +51,8 @@ namespace GoldPriceMonitorApi_DotNet
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
