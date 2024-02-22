@@ -1,20 +1,36 @@
+<div>
+    <h2>Bảo tín minh châu</h2>
+    <mat-button-toggle-group #drawingPeriodToggleBtn="matButtonToggleGroup" (change)="changeInDrawingPeriod(drawingPeriodToggleBtn.value)" name="drawingPeriod" aria-label="Drawing Period">
+        <mat-button-toggle value="today">Hôm nay</mat-button-toggle>
+        <mat-button-toggle value="week">Tuần</mat-button-toggle>
+        <mat-button-toggle value="month">Tháng</mat-button-toggle>
+        <mat-button-toggle value="year">Năm</mat-button-toggle>
+        <mat-button-toggle value="custom">Khác</mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+<!--
 <div class="button-row">
-    <button mat-button mat-raised-button color="primary" (click)="randomize()">
+    <button mat-raised-button color="primary" (click)="randomize()">
       Ngày hôm nay
     </button>
-    <button mat-button mat-raised-button color="primary" (click)="pushOne()">
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="primary" (click)="pushOne()">
       Tuần
     </button>
-    <button mat-button mat-raised-button color="primary" (click)="changeColor()">
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="primary" (click)="changeColor()">
       Tháng
     </button>
-    <button mat-button mat-raised-button color="primary" (click)="hideOne()">
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="primary" (click)="hideOne()">
       Năm
     </button>
-    <button mat-button mat-raised-button color="primary" (click)="changeLabel()">
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="primary" (click)="changeLabel()">
       Tự chọn
     </button>
 </div>
+-->
 <canvas
   baseChart
   class="chart"
@@ -24,6 +40,7 @@
   (chartHover)="chartHovered($event)"
   (chartClick)="chartClicked($event)"
 ></canvas>
+<!--
 <table>
   <tr>
     <th *ngFor="let label of lineChartData.labels">{{ label }}</th>
@@ -37,3 +54,4 @@
     </td>
   </tr>
 </table>
+-->
