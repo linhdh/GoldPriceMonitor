@@ -1,4 +1,4 @@
-﻿namespace GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController
+﻿namespace GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Requests
 {
     public class GoldType
     {

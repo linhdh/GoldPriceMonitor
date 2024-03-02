@@ -23,7 +23,7 @@ export class BaoTinMinhChauService {
     return this.http.get<GoldType[]>(this.apiURL + '/api/BaoTinMinhChaus/GoldTypes').pipe(retry(1), catchError(this.handleError));
   }
 
-  // HttpClient API get() method => Fetch employees list
+  // HttpClient API get() method
   getTodayPrices(goldType: GoldType): Observable<BaoTinMinhChau[]> {
     var params = new HttpParams();
     params = params.append('name', goldType.name);
@@ -31,6 +31,20 @@ export class BaoTinMinhChauService {
     params = params.append('hamLuongVang', goldType.hamLuongVang);
     return this.http
       .get<BaoTinMinhChau[]>(this.apiURL + '/api/BaoTinMinhChaus/Today', {
+        params: params, 
+        observe: 'body'
+      })
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getDayPrices(goldType: GoldType, day: Date): Observable<BaoTinMinhChau[]> {
+    var params = new HttpParams();
+    params = params.append('name', goldType.name);
+    params = params.append('hamLuongKara', goldType.hamLuongKara);
+    params = params.append('hamLuongVang', goldType.hamLuongVang);
+    params = params.append('ngayXem', day.toLocaleString());
+    return this.http
+      .get<BaoTinMinhChau[]>(this.apiURL + '/api/BaoTinMinhChaus/Day', {
         params: params, 
         observe: 'body'
       })

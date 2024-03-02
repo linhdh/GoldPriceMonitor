@@ -42,6 +42,7 @@ export class BaoTinMinhChauComponent {
   goldKara: string = '';
   goldPurity: string = '';
   goldTypes: GoldType[] = [];
+  goldName!: string;
 
   constructor(private httpService: BaoTinMinhChauService, public dialog: MatDialog) {
     //Chart.register(Annotation);
@@ -148,6 +149,7 @@ export class BaoTinMinhChauComponent {
     var goldType = this.goldTypes.find((value) => value.name == val);
     this.goldKara = goldType?.hamLuongKara === undefined ? '' : goldType.hamLuongKara;
     this.goldPurity = goldType?.hamLuongVang === undefined ? '' : goldType.hamLuongVang;
+    this.goldName = val;
   }
 
   openDayDialog() {
@@ -155,46 +157,54 @@ export class BaoTinMinhChauComponent {
     myTempDialog.afterClosed().subscribe((res) => {
       // Data back from dialog
       console.log({ res });
-      var goldType = new GoldType();
-      goldType.name = 'VÀNG MIẾNG SJC (Vàng SJC)';
-      goldType.hamLuongKara = '24k';
-      goldType.hamLuongVang = '999.9';
-      var giaMuaVaoData: number[] = [];
-      var giaBanRaData: number[] = [];
-      var timeData: Date[] = [];
-      this.httpService.getTodayPrices(goldType).subscribe((data: BaoTinMinhChau[]) => {
-        console.log(data);
-        data.forEach(element => {
-          giaMuaVaoData.push(element.giaMuaVao);
-          giaBanRaData.push(element.giaBanRa);
-          timeData.push(new Date(element.thoiGianNhap));
+      
+      if (res === 'day') {
+        var goldType = new GoldType();
+        goldType.name = this.goldName;
+        goldType.hamLuongKara = this.goldKara;
+        goldType.hamLuongVang = this.goldPurity;
+        var giaMuaVaoData: number[] = [];
+        var giaBanRaData: number[] = [];
+        var timeData: Date[] = [];
+        this.httpService.getDayPrices(goldType, this.day.value === null ? new Date() : this.day.value).subscribe((data: BaoTinMinhChau[]) => {
+          console.log(data);
+          data.forEach(element => {
+            giaMuaVaoData.push(element.giaMuaVao);
+            giaBanRaData.push(element.giaBanRa);
+            timeData.push(new Date(element.thoiGianNhap));
+          });
+          this.lineChartData = {
+            datasets: [
+              {
+                data: giaMuaVaoData,
+                label: 'Giá mua vào',
+                backgroundColor: 'rgba(148, 159, 177, 0.2)',
+                borderColor: 'rgba(148, 159, 177, 1)',
+                pointBackgroundColor: 'rgba(148, 159, 177, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(148, 159, 177, 0.8)',
+              }, 
+              {
+                data: giaBanRaData,
+                label: 'Giá bán ra',
+                backgroundColor: 'rgba(148, 59, 50, 0.2)',
+                borderColor: 'rgba(148, 59, 50, 1)',
+                pointBackgroundColor: 'rgba(148, 59, 50, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(148, 59, 50, 0.8)',
+              }
+            ],
+            labels: timeData,
+          };
         });
-        this.lineChartData = {
-          datasets: [
-            {
-              data: giaMuaVaoData,
-              label: 'Giá mua vào',
-              backgroundColor: 'rgba(148, 159, 177, 0.2)',
-              borderColor: 'rgba(148, 159, 177, 1)',
-              pointBackgroundColor: 'rgba(148, 159, 177, 1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(148, 159, 177, 0.8)',
-            }, 
-            {
-              data: giaBanRaData,
-              label: 'Giá bán ra',
-              backgroundColor: 'rgba(148, 59, 50, 0.2)',
-              borderColor: 'rgba(148, 59, 50, 1)',
-              pointBackgroundColor: 'rgba(148, 59, 50, 1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(148, 59, 50, 0.8)',
-            }
-          ],
-          labels: timeData,
-        };
-      });
+      }
+
+      // Reset unreset form values
+      this.goldKara = '';
+      this.goldPurity = '';
+
     });
   }
 }

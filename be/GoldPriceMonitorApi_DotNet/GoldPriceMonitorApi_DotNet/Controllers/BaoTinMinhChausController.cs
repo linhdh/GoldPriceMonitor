@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GoldPriceMonitorApi_DotNet.Database;
-using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController;
 using Microsoft.AspNetCore.Cors;
+using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Requests;
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {
@@ -46,6 +46,28 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
                 GiaBanRa = b.GiaBanRa, 
                 GiaMuaVao = b.GiaMuaVao, 
                 GiaTheGioi = b.GiaTheGioi, 
+                ThoiGianNhap = b.ThoiGianNhap
+            }).ToListAsync();
+
+            if (baoTinMinhChau.Any())
+            {
+                return baoTinMinhChau;
+            }
+            return NotFound();
+        }
+
+        [HttpGet("Day")]
+        public async Task<ActionResult<IEnumerable<BaoTinMinhChau>>> GetDayPrices([FromQuery] DayPrices args)
+        {
+            var baoTinMinhChau = await _context.BaoTinMinhChaus.Where(b => b.Name == args.Name && b.HamLuongVang == args.HamLuongVang && b.HamLuongKara == args.HamLuongKara && b.ThoiGianNhap.Date == args.NgayXem.Date).OrderBy(b => b.ThoiGianNhap).Select(b => new BaoTinMinhChau()
+            {
+                Id = b.Id,
+                Name = b.Name,
+                HamLuongVang = b.HamLuongVang,
+                HamLuongKara = b.HamLuongKara,
+                GiaBanRa = b.GiaBanRa,
+                GiaMuaVao = b.GiaMuaVao,
+                GiaTheGioi = b.GiaTheGioi,
                 ThoiGianNhap = b.ThoiGianNhap
             }).ToListAsync();
 
