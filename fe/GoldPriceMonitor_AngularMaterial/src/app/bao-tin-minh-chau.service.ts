@@ -19,6 +19,10 @@ export class BaoTinMinhChauService {
     }),
   };
 
+  getGoldTypes(): Observable<GoldType[]> {
+    return this.http.get<GoldType[]>(this.apiURL + '/api/BaoTinMinhChaus/GoldTypes').pipe(retry(1), catchError(this.handleError));
+  }
+
   // HttpClient API get() method => Fetch employees list
   getTodayPrices(goldType: GoldType): Observable<BaoTinMinhChau[]> {
     var params = new HttpParams();

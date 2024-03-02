@@ -23,7 +23,7 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
             _context = context;
         }
 
-        // GET: api/BaoTinMinhChaus
+        // GET: api/BaoTinMinhChaus/GoldTypes
         [HttpGet("GoldTypes")]
         public async Task<ActionResult<IEnumerable<GoldType>>> GetTypes()
         {

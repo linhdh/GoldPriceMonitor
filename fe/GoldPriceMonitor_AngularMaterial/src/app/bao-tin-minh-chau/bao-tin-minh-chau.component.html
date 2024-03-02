@@ -1,36 +1,33 @@
+<h2>Bảo tín minh châu</h2>
+<!--
 <div>
-    <h2>Bảo tín minh châu</h2>
     <mat-button-toggle-group #drawingPeriodToggleBtn="matButtonToggleGroup" (change)="changeInDrawingPeriod(drawingPeriodToggleBtn.value)" name="drawingPeriod" aria-label="Drawing Period">
-        <mat-button-toggle value="today">Hôm nay</mat-button-toggle>
+        <mat-button-toggle value="day">Ngày</mat-button-toggle>
         <mat-button-toggle value="week">Tuần</mat-button-toggle>
         <mat-button-toggle value="month">Tháng</mat-button-toggle>
         <mat-button-toggle value="year">Năm</mat-button-toggle>
         <mat-button-toggle value="custom">Khác</mat-button-toggle>
     </mat-button-toggle-group>
 </div>
-<!--
+-->
 <div class="button-row">
-    <button mat-raised-button color="primary" (click)="randomize()">
-      Ngày hôm nay
+    <button mat-raised-button color="primary" (click)="openDayDialog()">
+      Ngày
     </button>
-    <span class="example-spacer"></span>
-    <button mat-raised-button color="primary" (click)="pushOne()">
+    <button mat-raised-button color="primary" (click)="openDayDialog()">
       Tuần
     </button>
-    <span class="example-spacer"></span>
-    <button mat-raised-button color="primary" (click)="changeColor()">
+    <button mat-raised-button color="primary" (click)="openDayDialog()">
       Tháng
     </button>
-    <span class="example-spacer"></span>
-    <button mat-raised-button color="primary" (click)="hideOne()">
+    <button mat-raised-button color="primary" (click)="openDayDialog()">
       Năm
     </button>
-    <span class="example-spacer"></span>
-    <button mat-raised-button color="primary" (click)="changeLabel()">
-      Tự chọn
+    <button mat-raised-button color="primary" (click)="openDayDialog()">
+      Khác
     </button>
 </div>
--->
+
 <canvas
   baseChart
   class="chart"
@@ -55,3 +52,40 @@
   </tr>
 </table>
 -->
+
+<ng-template #dayDialogRef>
+  <h5 mat-dialog-title>Xem giá vàng theo ngày</h5>
+  <mat-dialog-content>
+    <form class="day-form">
+      <mat-form-field class="day-full-width">
+        <mat-label>Tên vàng</mat-label>
+        <mat-select #goldName (selectionChange)="onGoldNameChanged(goldName.value)">
+          @for (type of goldTypes; track type) {
+            <mat-option [value]="type.name">{{type.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="day-full-width">
+        <mat-label>Hàm lượng Kara</mat-label>
+        <input matInput disabled [value]="goldKara">
+      </mat-form-field>
+    
+      <mat-form-field class="day-full-width">
+        <mat-label>Hàm lượng vàng</mat-label>
+        <input matInput disabled [value]="goldPurity">
+      </mat-form-field>
+
+      <mat-form-field class="day-full-width">
+        <mat-label>Ngày xem</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="day">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close='day'>Xem</button>
+  </mat-dialog-actions>
+</ng-template>
