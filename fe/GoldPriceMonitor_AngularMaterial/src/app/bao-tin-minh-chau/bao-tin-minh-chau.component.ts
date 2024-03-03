@@ -43,6 +43,9 @@ export class BaoTinMinhChauComponent {
   goldPurity: string = '';
   goldTypes: GoldType[] = [];
   goldName!: string;
+  chartTitleGoldName: string = '';
+  chartTitleGoldKara: string = '';
+  chartTitleGoldPurity: string = '';
 
   constructor(private httpService: BaoTinMinhChauService, public dialog: MatDialog) {
     //Chart.register(Annotation);
@@ -159,6 +162,9 @@ export class BaoTinMinhChauComponent {
       console.log({ res });
       
       if (res === 'day') {
+        this.chartTitleGoldName = this.goldName;
+        this.chartTitleGoldKara = this.goldKara;
+        this.chartTitleGoldPurity = this.goldPurity;
         var goldType = new GoldType();
         goldType.name = this.goldName;
         goldType.hamLuongKara = this.goldKara;

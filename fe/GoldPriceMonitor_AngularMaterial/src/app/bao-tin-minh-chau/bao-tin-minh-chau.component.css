@@ -7,3 +7,9 @@
 .day-full-width {
   width: 100%;
 }
+
+.button-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
