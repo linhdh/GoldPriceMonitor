@@ -18,6 +18,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { GoldPricesByMonthComponent } from '../dialogs/gold-prices-by-month/gold-prices-by-month.component';
+import { DayPriceMinMax } from '../shared/day-price-min-max';
 
 
 @Component({
@@ -64,6 +65,9 @@ export class BaoTinMinhChauComponent {
     scales: {
       x: {
           type: 'time',
+          time: {
+            unit: 'day'
+          }, 
           adapters: { 
             date: {
               locale: enUS, 
@@ -205,15 +209,118 @@ export class BaoTinMinhChauComponent {
             ],
             labels: timeData,
           };
+
+          this.lineChartOptions = {
+            scales: {
+              x: {
+                  type: 'time',
+                  time: {
+                    unit: 'hour'
+                  }, 
+                  adapters: { 
+                    date: {
+                      locale: enUS, 
+                    },
+                  },
+                },
+            },
+          };
+
+          this.lineChartType = 'line';
         });
       }
     });
   }
 
   openMonthDialog() {
-    const myTempDialog = this.dialog.open(GoldPricesByMonthComponent, { data: this.goldTypes });
-    myTempDialog.afterClosed().subscribe((res) => {
-    
+    const myTempDialog2 = this.dialog.open(GoldPricesByMonthComponent, { data: this.goldTypes });
+    myTempDialog2.afterClosed().subscribe((res) => {
+      if (res?.data?.type === 'month') {
+        //set chart title
+        var localDate = res.data.month?.toDate();
+        this.chartTitle = 'Biểu đồ giá ' + res.data.selectedGoldName + ', ' + res.data.goldKara + ', ' + res.data.goldPurity + ' tháng ' + (localDate.getMonth() + 1) + '/' + localDate.getFullYear();
+        var goldType = new GoldType();
+        goldType.name = res.data.selectedGoldName;
+        goldType.hamLuongKara = res.data.goldKara;
+        goldType.hamLuongVang = res.data.goldPurity;
+        var giaMuaVaoMinData: number[] = [];
+        var giaBanRaMinData: number[] = [];
+        var giaMuaVaoMaxData: number[] = [];
+        var giaBanRaMaxData: number[] = [];
+        var timeData: Date[] = [];
+        this.httpService.getMonthPrices(goldType, this.day.value === null ? new Date() : this.day.value).subscribe((data: DayPriceMinMax[]) => {
+          data.forEach(element => {
+            giaMuaVaoMinData.push(element.giaMuaVaoMin);
+            giaBanRaMinData.push(element.giaBanRaMin);
+            giaMuaVaoMaxData.push(element.giaMuaVaoMax);
+            giaBanRaMaxData.push(element.giaBanRaMax);
+            timeData.push(new Date(element.thoiGianNhap));
+          });
+          this.lineChartData = {
+            datasets: [
+              {
+                data: giaMuaVaoMinData,
+                label: 'Giá mua vào nhỏ nhất',
+                backgroundColor: 'rgba(148, 159, 177, 0.2)',
+                borderColor: 'rgba(148, 159, 177, 1)',
+                pointBackgroundColor: 'rgba(148, 159, 177, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(148, 159, 177, 0.8)',
+              }, 
+              {
+                data: giaMuaVaoMaxData,
+                label: 'Giá mua vào lớn nhất',
+                backgroundColor: 'rgba(148, 159, 77, 0.2)',
+                borderColor: 'rgba(148, 159, 77, 1)',
+                pointBackgroundColor: 'rgba(148, 159, 77, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(148, 159, 77, 0.8)',
+              }, 
+              {
+                data: giaBanRaMinData,
+                label: 'Giá bán ra nhỏ nhất',
+                backgroundColor: 'rgba(148, 59, 50, 0.2)',
+                borderColor: 'rgba(148, 59, 50, 1)',
+                pointBackgroundColor: 'rgba(148, 59, 50, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(148, 59, 50, 0.8)',
+              }, 
+              {
+                data: giaBanRaMaxData,
+                label: 'Giá bán ra lớn nhất',
+                backgroundColor: 'rgba(148, 59, 5, 0.2)',
+                borderColor: 'rgba(148, 59, 5, 1)',
+                pointBackgroundColor: 'rgba(148, 59, 5, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(148, 59, 5, 0.8)',
+              }
+            ],
+            labels: timeData,
+          };
+
+          this.lineChartOptions = {
+            scales: {
+              x: {
+                  type: 'time',
+                  time: {
+                    unit: 'day'
+                  }, 
+                  adapters: { 
+                    date: {
+                      locale: enUS, 
+                    },
+                  },
+                },
+            },
+          };
+
+          this.lineChartType = 'line';
+        });
+      }
     });
   }
 

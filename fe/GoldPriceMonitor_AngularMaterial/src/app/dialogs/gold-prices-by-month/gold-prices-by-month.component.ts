@@ -63,7 +63,10 @@ export class GoldPricesByMonthComponent {
     this.goldTypes = mydata;
   }
 
-  closeDialog() { this.dialogRef.close({ event: 'close', data: 'month' }); }
+  closeDialog() {
+    var returned = { type: 'month', selectedGoldName: this.selectedGoldName, goldKara: this.goldKara, goldPurity: this.goldPurity, month: this.month.value };
+    this.dialogRef.close({ event: 'close', data: returned }); 
+  }
 
   onGoldNameChanged(val: string) {
     var goldType = this.goldTypes.find((value) => value.name == val);

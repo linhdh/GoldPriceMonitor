@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { GoldType } from './shared/gold-type';
 import { BaoTinMinhChau } from './shared/bao-tin-minh-chau';
+import { DayPriceMinMax } from './shared/day-price-min-max';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,20 @@ export class BaoTinMinhChauService {
     params = params.append('ngayXem', day.toLocaleString());
     return this.http
       .get<BaoTinMinhChau[]>(this.apiURL + '/api/BaoTinMinhChaus/Day', {
+        params: params, 
+        observe: 'body'
+      })
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getMonthPrices(goldType: GoldType, day: Date): Observable<DayPriceMinMax[]> {
+    var params = new HttpParams();
+    params = params.append('name', goldType.name);
+    params = params.append('hamLuongKara', goldType.hamLuongKara);
+    params = params.append('hamLuongVang', goldType.hamLuongVang);
+    params = params.append('thangXem', day.toLocaleString());
+    return this.http
+      .get<DayPriceMinMax[]>(this.apiURL + '/api/BaoTinMinhChaus/Month', {
         params: params, 
         observe: 'body'
       })
