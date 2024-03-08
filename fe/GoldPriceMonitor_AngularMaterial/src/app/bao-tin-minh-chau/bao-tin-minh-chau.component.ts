@@ -235,9 +235,12 @@ export class BaoTinMinhChauComponent {
   openMonthDialog() {
     const myTempDialog2 = this.dialog.open(GoldPricesByMonthComponent, { data: this.goldTypes });
     myTempDialog2.afterClosed().subscribe((res) => {
+      console.log(res);
       if (res?.data?.type === 'month') {
-        //set chart title
         var localDate = res.data.month?.toDate();
+        //TODO: if localDate is undefined or null, show some thing for this error.
+        
+        //set chart title
         this.chartTitle = 'Biểu đồ giá ' + res.data.selectedGoldName + ', ' + res.data.goldKara + ', ' + res.data.goldPurity + ' tháng ' + (localDate.getMonth() + 1) + '/' + localDate.getFullYear();
         var goldType = new GoldType();
         goldType.name = res.data.selectedGoldName;
@@ -248,7 +251,7 @@ export class BaoTinMinhChauComponent {
         var giaMuaVaoMaxData: number[] = [];
         var giaBanRaMaxData: number[] = [];
         var timeData: Date[] = [];
-        this.httpService.getMonthPrices(goldType, this.day.value === null ? new Date() : this.day.value).subscribe((data: DayPriceMinMax[]) => {
+        this.httpService.getMonthPrices(goldType, localDate).subscribe((data: DayPriceMinMax[]) => {
           data.forEach(element => {
             giaMuaVaoMinData.push(element.giaMuaVaoMin);
             giaBanRaMinData.push(element.giaBanRaMin);

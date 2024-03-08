@@ -65,6 +65,7 @@ export class GoldPricesByMonthComponent {
 
   closeDialog() {
     var returned = { type: 'month', selectedGoldName: this.selectedGoldName, goldKara: this.goldKara, goldPurity: this.goldPurity, month: this.month.value };
+    console.log(this.month.value?.toDate());
     this.dialogRef.close({ event: 'close', data: returned }); 
   }
 
@@ -75,6 +76,7 @@ export class GoldPricesByMonthComponent {
   }
     
   setMonthAndYear(normalizedMonthAndYear: Moment, dpm?: any) {
+    console.log(normalizedMonthAndYear);
     const ctrlValue = this.month.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
