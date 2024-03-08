@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GoldPriceMonitorApi_DotNet.Database;
 using Microsoft.AspNetCore.Cors;
 using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Requests;
+using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Responses;
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {
@@ -69,6 +70,28 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
                 GiaMuaVao = b.GiaMuaVao,
                 GiaTheGioi = b.GiaTheGioi,
                 ThoiGianNhap = b.ThoiGianNhap
+            }).ToListAsync();
+
+            if (baoTinMinhChau.Any())
+            {
+                return baoTinMinhChau;
+            }
+            return NotFound();
+        }
+
+        [HttpGet("Month")]
+        public async Task<ActionResult<IEnumerable<DayPriceMinMax>>> GetMonthPrices([FromQuery] MonthPrices args)
+        {
+            var baoTinMinhChau = await _context.BaoTinMinhChaus.Where(b => b.Name == args.Name && b.HamLuongVang == args.HamLuongVang && b.HamLuongKara == args.HamLuongKara && b.ThoiGianNhap.Date.Month == args.ThangXem.Date.Month).GroupBy(b => new { b.Name, b.HamLuongVang, b.HamLuongKara, b.ThoiGianNhap.Date }).OrderBy(b => b.Key.Date).Select(b => new DayPriceMinMax
+            {
+                Name = b.Key.Name,
+                HamLuongVang = b.Key.HamLuongVang,
+                HamLuongKara = b.Key.HamLuongKara,
+                GiaBanRaMin = b.Min<BaoTinMinhChau>(bi => bi.GiaBanRa),
+                GiaBanRaMax = b.Max<BaoTinMinhChau>(bi => bi.GiaBanRa),
+                GiaMuaVaoMin = b.Min<BaoTinMinhChau>(bi => bi.GiaMuaVao),
+                GiaMuaVaoMax = b.Max<BaoTinMinhChau>(bi => bi.GiaMuaVao), 
+                ThoiGianNhap = b.Key.Date
             }).ToListAsync();
 
             if (baoTinMinhChau.Any())

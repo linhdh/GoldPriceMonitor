@@ -1,0 +1,34 @@
+<h5 mat-dialog-title>Xem giá vàng theo tháng</h5>
+  <mat-dialog-content>
+    <form class="month-form">
+      <mat-form-field>
+        <mat-label>Tên vàng</mat-label>
+        <mat-select #goldNameMonth (selectionChange)="onGoldNameChanged(goldNameMonth.value)" [(value)]="selectedGoldName">
+          @for (type of goldTypes; track type) {
+            <mat-option [value]="type.name">{{type.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Hàm lượng Kara</mat-label>
+        <input matInput disabled [value]="goldKara">
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label>Hàm lượng vàng</mat-label>
+        <input matInput disabled [value]="goldPurity">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Ngày xem</mat-label>
+        <input matInput [matDatepicker]="dpm" [formControl]="month">
+        <mat-hint>MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="dpm"></mat-datepicker-toggle>
+        <mat-datepicker #dpm startView="multi-year" (monthSelected)="setMonthAndYear($event, dpm)"></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close='month'>Xem</button>
+  </mat-dialog-actions>

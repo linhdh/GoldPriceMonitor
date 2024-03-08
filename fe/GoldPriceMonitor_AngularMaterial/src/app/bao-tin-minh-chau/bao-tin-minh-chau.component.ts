@@ -17,11 +17,14 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
+import { GoldPricesByMonthComponent } from '../dialogs/gold-prices-by-month/gold-prices-by-month.component';
+
 
 @Component({
   selector: 'app-bao-tin-minh-chau',
   standalone: true,
-  providers: [provideNativeDateAdapter()], 
+  providers: [provideNativeDateAdapter(), 
+  ], 
   imports: [ NgChartsModule, 
               MatButtonModule, 
               MatButtonToggleModule, 
@@ -42,10 +45,8 @@ export class BaoTinMinhChauComponent {
   goldKara: string = '';
   goldPurity: string = '';
   goldTypes: GoldType[] = [];
-  goldName!: string;
-  chartTitleGoldName: string = '';
-  chartTitleGoldKara: string = '';
-  chartTitleGoldPurity: string = '';
+  selectedGoldName: string = '';
+  chartTitle: string = '';
 
   constructor(private httpService: BaoTinMinhChauService, public dialog: MatDialog) {
     //Chart.register(Annotation);
@@ -97,6 +98,7 @@ export class BaoTinMinhChauComponent {
     //console.log(event, active);
   }
 
+  /*
   public changeInDrawingPeriod(val: string) {
     if (val === "today") {
       console.log(val);
@@ -146,13 +148,13 @@ export class BaoTinMinhChauComponent {
       this.openDayDialog();
     }
   }
+  */
 
   onGoldNameChanged(val: string) {
     console.log(val);
     var goldType = this.goldTypes.find((value) => value.name == val);
     this.goldKara = goldType?.hamLuongKara === undefined ? '' : goldType.hamLuongKara;
     this.goldPurity = goldType?.hamLuongVang === undefined ? '' : goldType.hamLuongVang;
-    this.goldName = val;
   }
 
   openDayDialog() {
@@ -162,11 +164,10 @@ export class BaoTinMinhChauComponent {
       console.log({ res });
       
       if (res === 'day') {
-        this.chartTitleGoldName = this.goldName;
-        this.chartTitleGoldKara = this.goldKara;
-        this.chartTitleGoldPurity = this.goldPurity;
+        //set chart title
+        this.chartTitle = 'Biểu đồ giá ' + this.selectedGoldName + ', ' + this.goldKara + ', ' + this.goldPurity + ' ngày ' + this.day.value?.toLocaleDateString();
         var goldType = new GoldType();
-        goldType.name = this.goldName;
+        goldType.name = this.selectedGoldName;
         goldType.hamLuongKara = this.goldKara;
         goldType.hamLuongVang = this.goldPurity;
         var giaMuaVaoData: number[] = [];
@@ -206,11 +207,21 @@ export class BaoTinMinhChauComponent {
           };
         });
       }
-
-      // Reset unreset form values
-      this.goldKara = '';
-      this.goldPurity = '';
-
     });
+  }
+
+  openMonthDialog() {
+    const myTempDialog = this.dialog.open(GoldPricesByMonthComponent, { data: this.goldTypes });
+    myTempDialog.afterClosed().subscribe((res) => {
+    
+    });
+  }
+
+  openOtherDialog() {
+    throw new Error('Method not implemented.');
+  }
+   
+  openYearDialog() {
+    throw new Error('Method not implemented.');
   }
 }

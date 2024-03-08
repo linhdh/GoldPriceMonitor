@@ -14,20 +14,20 @@
     <button mat-raised-button color="primary" (click)="openDayDialog()">
       Ngày
     </button>
-    <button mat-raised-button color="primary" (click)="openDayDialog()">
+    <!--<button mat-raised-button color="primary" (click)="openDayDialog()">
       Tuần
-    </button>
-    <button mat-raised-button color="primary" (click)="openDayDialog()">
+    </button>-->
+    <button mat-raised-button color="primary" (click)="openMonthDialog()">
       Tháng
     </button>
-    <button mat-raised-button color="primary" (click)="openDayDialog()">
+    <button mat-raised-button color="primary" (click)="openYearDialog()">
       Năm
     </button>
-    <button mat-raised-button color="primary" (click)="openDayDialog()">
+    <button mat-raised-button color="primary" (click)="openOtherDialog()">
       Khác
     </button>
 </div>
-<h2>Biểu đồ giá {{chartTitleGoldName}}, {{chartTitleGoldKara}}, {{chartTitleGoldPurity}} ngày {{day.value?.toLocaleDateString()}}</h2>
+<h2>{{chartTitle}}</h2>
 
 <canvas
   baseChart
@@ -60,7 +60,7 @@
     <form class="day-form">
       <mat-form-field class="day-full-width">
         <mat-label>Tên vàng</mat-label>
-        <mat-select #goldName (selectionChange)="onGoldNameChanged(goldName.value)">
+        <mat-select #goldName (selectionChange)="onGoldNameChanged(goldName.value)" [(value)]="selectedGoldName">
           @for (type of goldTypes; track type) {
             <mat-option [value]="type.name">{{type.name}}</mat-option>
           }
