@@ -20,13 +20,12 @@ import {MatSelectModule} from '@angular/material/select';
 import { GoldPricesByMonthComponent } from '../dialogs/gold-prices-by-month/gold-prices-by-month.component';
 import { DayPriceMinMax } from '../shared/day-price-min-max';
 import { GoldPricesByYearComponent } from '../dialogs/gold-prices-by-year/gold-prices-by-year.component';
+import { GoldPricesByDayComponent } from '../dialogs/gold-prices-by-day/gold-prices-by-day.component';
 
 
 @Component({
   selector: 'app-bao-tin-minh-chau',
   standalone: true,
-  providers: [provideNativeDateAdapter(), 
-  ], 
   imports: [ NgChartsModule, 
               MatButtonModule, 
               MatButtonToggleModule, 
@@ -41,14 +40,12 @@ import { GoldPricesByYearComponent } from '../dialogs/gold-prices-by-year/gold-p
   styleUrl: './bao-tin-minh-chau.component.css'
 })
 export class BaoTinMinhChauComponent {
-  private newLabel? = 'New label';
-  @ViewChild('dayDialogRef') dayDialogRef!: TemplateRef<any>;
-  day = new FormControl(new Date());
-  goldKara: string = '';
-  goldPurity: string = '';
-  goldTypes: GoldType[] = [];
-  selectedGoldName: string = '';
+  selectedGoldName_Day: string = '';
+  goldKara_Day: string = '';
+  goldPurity_Day: string = '';
+  NgayXem_Day: Date = new Date();
   chartTitle: string = '';
+  goldTypes: GoldType[] = [];
 
   constructor(private httpService: BaoTinMinhChauService, public dialog: MatDialog) {
     //Chart.register(Annotation);
@@ -155,30 +152,26 @@ export class BaoTinMinhChauComponent {
   }
   */
 
-  onGoldNameChanged(val: string) {
-    console.log(val);
-    var goldType = this.goldTypes.find((value) => value.name == val);
-    this.goldKara = goldType?.hamLuongKara === undefined ? '' : goldType.hamLuongKara;
-    this.goldPurity = goldType?.hamLuongVang === undefined ? '' : goldType.hamLuongVang;
-  }
-
   openDayDialog() {
-    const myTempDialog = this.dialog.open(this.dayDialogRef, { data: [] });
+    const myTempDialog = this.dialog.open(GoldPricesByDayComponent, { data: { goldTypes: this.goldTypes, selectedGoldName: this.selectedGoldName_Day, goldKara: this.goldKara_Day, goldPurity: this.goldPurity_Day, NgayXem: this.NgayXem_Day } });
     myTempDialog.afterClosed().subscribe((res) => {
-      // Data back from dialog
-      console.log({ res });
-      
-      if (res === 'day') {
+      // Data back from dialog      
+      if (res?.data?.type === 'day') {
         //set chart title
-        this.chartTitle = 'Biểu đồ giá ' + this.selectedGoldName + ', ' + this.goldKara + ', ' + this.goldPurity + ' ngày ' + this.day.value?.toLocaleDateString();
-        var goldType = new GoldType();
-        goldType.name = this.selectedGoldName;
-        goldType.hamLuongKara = this.goldKara;
-        goldType.hamLuongVang = this.goldPurity;
+        this.chartTitle = 'Biểu đồ giá ' + res.data.selectedGoldName + ', ' + res.data.goldKara + ', ' + res.data.goldPurity + ' ngày ' + res.data.day.toLocaleDateString();
+        this.selectedGoldName_Day = res.data.selectedGoldName;
+        this.goldKara_Day = res.data.goldKara;
+        this.goldPurity_Day = res.data.goldPurity;
+        this.NgayXem_Day = res.data.NgayXem;
+        
+        var goldType = new GoldType();        
+        goldType.name = this.selectedGoldName_Day;
+        goldType.hamLuongKara = res.data.goldKara;
+        goldType.hamLuongVang = res.data.goldPurity;
         var giaMuaVaoData: number[] = [];
         var giaBanRaData: number[] = [];
         var timeData: Date[] = [];
-        this.httpService.getDayPrices(goldType, this.day.value === null ? new Date() : this.day.value).subscribe((data: BaoTinMinhChau[]) => {
+        this.httpService.getDayPrices(goldType, res.data.day).subscribe((data: BaoTinMinhChau[]) => {
           console.log(data);
           data.forEach(element => {
             giaMuaVaoData.push(element.giaMuaVao);
@@ -236,7 +229,6 @@ export class BaoTinMinhChauComponent {
   openMonthDialog() {
     const myTempDialog2 = this.dialog.open(GoldPricesByMonthComponent, { data: this.goldTypes });
     myTempDialog2.afterClosed().subscribe((res) => {
-      console.log(res);
       if (res?.data?.type === 'month') {
         var localDate = res.data.month?.toDate();
         //TODO: if localDate is undefined or null, show some thing for this error.
