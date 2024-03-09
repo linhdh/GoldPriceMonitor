@@ -54,9 +54,9 @@ namespace GoldPriceMonitorApi_DotNet.Services
                 baoTinMinhChau.GiaBanRa = float.Parse(xmlNode.Attributes![5]!.Value, vietnamCultureInfo);
                 baoTinMinhChau.GiaTheGioi = float.Parse(xmlNode.Attributes![6]!.Value, vietnamCultureInfo);
                 baoTinMinhChau.ThoiGianNhap = DateTime.Parse(xmlNode.Attributes![7]!.Value, vietnamCultureInfo);
-                var isExistedOtherDay = await _dbContext.BaoTinMinhChaus.Where(b => b.ThoiGianNhap.Date == baoTinMinhChau.ThoiGianNhap.Date && b.Name == baoTinMinhChau.Name && b.HamLuongKara == baoTinMinhChau.HamLuongKara && b.HamLuongVang == baoTinMinhChau.HamLuongVang && b.ThoiGianNhap == baoTinMinhChau.ThoiGianNhap).SingleOrDefaultAsync();
+                var isExistedOtherDay = await _dbContext.BaoTinMinhChaus.Where(b => b.ThoiGianNhap.Date == baoTinMinhChau.ThoiGianNhap.Date && b.Name == baoTinMinhChau.Name && b.HamLuongKara == baoTinMinhChau.HamLuongKara && b.HamLuongVang == baoTinMinhChau.HamLuongVang && b.ThoiGianNhap == baoTinMinhChau.ThoiGianNhap).FirstOrDefaultAsync();
                 var findDupListForToday = await findDupList.AnyAsync();
-                var findDupRowForToday = await findDupList.Where(b => b.Name == baoTinMinhChau.Name && b.HamLuongKara == baoTinMinhChau.HamLuongKara && b.HamLuongVang == baoTinMinhChau.HamLuongVang && b.ThoiGianNhap == baoTinMinhChau.ThoiGianNhap).SingleOrDefaultAsync();
+                var findDupRowForToday = await findDupList.Where(b => b.Name == baoTinMinhChau.Name && b.HamLuongKara == baoTinMinhChau.HamLuongKara && b.HamLuongVang == baoTinMinhChau.HamLuongVang && b.ThoiGianNhap == baoTinMinhChau.ThoiGianNhap).FirstOrDefaultAsync();
                 if ((findDupListForToday == true && findDupRowForToday == null) || isExistedOtherDay == null)
                 {
                     baoTinMinhChaus.Add(baoTinMinhChau);
