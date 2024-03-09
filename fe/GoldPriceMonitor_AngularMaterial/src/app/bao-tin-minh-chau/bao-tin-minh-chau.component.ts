@@ -172,7 +172,6 @@ export class BaoTinMinhChauComponent {
         var giaBanRaData: number[] = [];
         var timeData: Date[] = [];
         this.httpService.getDayPrices(goldType, res.data.day).subscribe((data: BaoTinMinhChau[]) => {
-          console.log(data);
           data.forEach(element => {
             giaMuaVaoData.push(element.giaMuaVao);
             giaBanRaData.push(element.giaBanRa);
