@@ -66,6 +66,20 @@ export class BaoTinMinhChauService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
+  getYearPrices(goldType: GoldType, day: Date): Observable<DayPriceMinMax[]> {
+    var params = new HttpParams();
+    params = params.append('name', goldType.name);
+    params = params.append('hamLuongKara', goldType.hamLuongKara);
+    params = params.append('hamLuongVang', goldType.hamLuongVang);
+    params = params.append('namXem', day.toLocaleString());
+    return this.http
+      .get<DayPriceMinMax[]>(this.apiURL + '/api/BaoTinMinhChaus/Year', {
+        params: params, 
+        observe: 'body'
+      })
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
   // Error handling
   handleError(error: any) {
     let errorMessage = '';
