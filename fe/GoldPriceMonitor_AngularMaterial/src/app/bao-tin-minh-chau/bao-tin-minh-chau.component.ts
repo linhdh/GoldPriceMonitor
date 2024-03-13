@@ -43,7 +43,7 @@ export class BaoTinMinhChauComponent {
   selectedGoldName_Day: string = '';
   goldKara_Day: string = '';
   goldPurity_Day: string = '';
-  NgayXem_Day: Date = new Date();
+  ngayXem_Day: Date = new Date();
   chartTitle: string = '';
   goldTypes: GoldType[] = [];
 
@@ -153,16 +153,16 @@ export class BaoTinMinhChauComponent {
   */
 
   openDayDialog() {
-    const myTempDialog = this.dialog.open(GoldPricesByDayComponent, { data: { goldTypes: this.goldTypes, selectedGoldName: this.selectedGoldName_Day, goldKara: this.goldKara_Day, goldPurity: this.goldPurity_Day, NgayXem: this.NgayXem_Day } });
+    const myTempDialog = this.dialog.open(GoldPricesByDayComponent, { data: { goldTypes: this.goldTypes, selectedGoldName: this.selectedGoldName_Day, goldKara: this.goldKara_Day, goldPurity: this.goldPurity_Day, ngayXem: this.ngayXem_Day } });
     myTempDialog.afterClosed().subscribe((res) => {
       // Data back from dialog      
       if (res?.data?.type === 'day') {
         //set chart title
-        this.chartTitle = 'Biểu đồ giá ' + res.data.selectedGoldName + ', ' + res.data.goldKara + ', ' + res.data.goldPurity + ' ngày ' + res.data.day.toLocaleDateString();
+        this.chartTitle = 'Biểu đồ giá ' + res.data.selectedGoldName + ', ' + res.data.goldKara + ', ' + res.data.goldPurity + ' ngày ' + res.data.ngayXem.toLocaleDateString();
         this.selectedGoldName_Day = res.data.selectedGoldName;
         this.goldKara_Day = res.data.goldKara;
         this.goldPurity_Day = res.data.goldPurity;
-        this.NgayXem_Day = res.data.NgayXem;
+        this.ngayXem_Day = res.data.ngayXem;
         
         var goldType = new GoldType();        
         goldType.name = this.selectedGoldName_Day;
@@ -171,7 +171,7 @@ export class BaoTinMinhChauComponent {
         var giaMuaVaoData: number[] = [];
         var giaBanRaData: number[] = [];
         var timeData: Date[] = [];
-        this.httpService.getDayPrices(goldType, res.data.day).subscribe((data: BaoTinMinhChau[]) => {
+        this.httpService.getDayPrices(goldType, res.data.ngayXem).subscribe((data: BaoTinMinhChau[]) => {
           data.forEach(element => {
             giaMuaVaoData.push(element.giaMuaVao);
             giaBanRaData.push(element.giaBanRa);

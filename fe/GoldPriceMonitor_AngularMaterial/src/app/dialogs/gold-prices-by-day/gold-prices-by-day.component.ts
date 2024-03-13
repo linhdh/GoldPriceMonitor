@@ -1,4 +1,4 @@
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -18,7 +18,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './gold-prices-by-day.component.html',
   styleUrl: './gold-prices-by-day.component.css'
 })
-export class GoldPricesByDayComponent {
+export class GoldPricesByDayComponent implements OnInit {
   day = new FormControl(new Date());
   goldKara: string = '';
   goldPurity: string = '';
@@ -33,7 +33,10 @@ export class GoldPricesByDayComponent {
     this.selectedGoldName = mydata.selectedGoldName;
     this.goldKara = mydata.goldKara;
     this.goldPurity = mydata.goldPurity;
-    this.day.setValue(mydata.NgayXem);
+    this.day.setValue(mydata.ngayXem);
+  }
+
+  ngOnInit(): void {
   }
 
   onGoldNameChanged(val: string) {
@@ -43,7 +46,7 @@ export class GoldPricesByDayComponent {
   }
 
   closeDialog() {
-    var returned = { type: 'day', selectedGoldName: this.selectedGoldName, goldKara: this.goldKara, goldPurity: this.goldPurity, day: this.day.value };
+    var returned = { type: 'day', selectedGoldName: this.selectedGoldName, goldKara: this.goldKara, goldPurity: this.goldPurity, ngayXem: this.day.value };
     this.dialogRef.close({ event: 'close', data: returned }); 
   }
 }
