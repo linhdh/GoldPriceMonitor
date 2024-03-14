@@ -21,10 +21,50 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
         }
 
         [HttpGet]
-        [Route("start")]
-        public IActionResult Start()
+        [Route("StartBaoTinMinhChau")]
+        public IActionResult StartBaoTinMinhChau()
         {
             _recurringJobManager.AddOrUpdate("BaoTinMinhChau", () => _hangfireService.GetBTMC(), "*/15 * * * *");
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("RemoveBaoTinMinhChau")]
+        public IActionResult RemoveBaoTinMinhChau()
+        {
+            RecurringJob.RemoveIfExists("BaoTinMinhChau");
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("TriggerBaoTinMinhChau")]
+        public IActionResult TriggerBaoTinMinhChau()
+        {
+            RecurringJob.TriggerJob("BaoTinMinhChau");
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("StartSJC")]
+        public IActionResult StartSJC()
+        {
+            _recurringJobManager.AddOrUpdate("SJC", () => _hangfireService.GetSJC(), "*/15 * * * *");
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("RemoveSJC")]
+        public IActionResult RemoveSJC()
+        {
+            RecurringJob.RemoveIfExists("SJC");
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("TriggerSJC")]
+        public IActionResult TriggerSJC()
+        {
+            RecurringJob.TriggerJob("SJC");
             return Ok();
         }
     }
