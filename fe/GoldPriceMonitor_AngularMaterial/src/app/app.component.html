@@ -4,10 +4,10 @@
   <button mat-button aria-label="Thông tin CSDL">
     Thông tin CSDL
   </button>
-  <button mat-button color="primary" aria-label="Xem giá vàng Bảo tín minh châu">
+  <button mat-button [color]="rla1.isActive ? 'primary' : ''" aria-label="Xem giá vàng Bảo tín minh châu" [routerLink]="['bao-tin-minh-chau']" routerLinkActive #rla1="routerLinkActive">
     Bảo tín minh châu
   </button>
-  <button mat-button aria-label="Xem giá vàng Sjc">
+  <button mat-button [color]="rla2.isActive ? 'primary' : ''" aria-label="Xem giá vàng Sjc" [routerLink]="['sjc']" routerLinkActive #rla2="routerLinkActive">
     Sjc
   </button>
 </mat-toolbar>

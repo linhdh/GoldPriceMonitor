@@ -2,3 +2,8 @@
     flex: 0 1 auto;
     width: 32px;
   }
+
+.MenuLinkActive {
+  color:brown;
+  background-color: blue;
+}
