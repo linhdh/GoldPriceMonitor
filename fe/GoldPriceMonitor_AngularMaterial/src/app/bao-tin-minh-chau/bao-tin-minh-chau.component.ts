@@ -17,10 +17,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
-import { GoldPricesByMonthComponent } from '../dialogs/gold-prices-by-month/gold-prices-by-month.component';
 import { DayPriceMinMax } from '../shared/day-price-min-max';
-import { GoldPricesByYearComponent } from '../dialogs/gold-prices-by-year/gold-prices-by-year.component';
-import { GoldPricesByDayComponent } from '../dialogs/gold-prices-by-day/gold-prices-by-day.component';
+import { GoldPricesByMonthComponent } from './dialogs/gold-prices-by-month/gold-prices-by-month.component';
+import { GoldPricesByYearComponent } from './dialogs/gold-prices-by-year/gold-prices-by-year.component';
+import { GoldPricesByDayComponent } from './dialogs/gold-prices-by-day/gold-prices-by-day.component';
 
 
 @Component({

@@ -1,16 +1,16 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import * as _moment from 'moment';
 import {default as _rollupMoment, Moment} from 'moment';
-import { GoldType } from '../../shared/gold-type';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
+import { GoldType } from '../../../shared/gold-type';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatCommonModule } from '@angular/material/core';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
 const moment = _rollupMoment || _moment;
 
@@ -18,18 +18,18 @@ const moment = _rollupMoment || _moment;
 // https://momentjs.com/docs/#/displaying/format/
 export const MY_MONTH_FORMATS = {
   parse: {
-    dateInput: 'MM/YYYY',
+    dateInput: 'YYYY',
   },
   display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
+    dateInput: 'YYYY',
+    monthYearLabel: 'YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
+    monthYearA11yLabel: 'YYYY',
   },
 };
 
 @Component({
-  selector: 'app-gold-prices-by-month',
+  selector: 'app-gold-prices-by-year',
   standalone: true,
   providers: [ 
     // Moment can be provided globally to your app by adding `provideMomentDateAdapter`
@@ -37,48 +37,39 @@ export const MY_MONTH_FORMATS = {
     // of our example generation script.
     provideMomentDateAdapter(MY_MONTH_FORMATS),
   ], 
-  imports: [ MatDialogModule, 
-              MatFormFieldModule, 
-              MatSelectModule, 
-              MatDatepickerModule, 
-              ReactiveFormsModule, 
-              MatButtonModule, 
-              MatInputModule, 
-              MatCommonModule
-            ],
-  templateUrl: './gold-prices-by-month.component.html',
-  styleUrl: './gold-prices-by-month.component.css'
+  imports: [ MatDialogModule, MatButtonModule, MatFormFieldModule, MatSelectModule, MatSelectModule, MatDatepickerModule, ReactiveFormsModule, MatInputModule ],
+  templateUrl: './gold-prices-by-year.component.html',
+  styleUrl: './gold-prices-by-year.component.css'
 })
-export class GoldPricesByMonthComponent {
-  month = new FormControl(moment());
+export class GoldPricesByYearComponent {
+  year = new FormControl(moment());
   goldTypes: GoldType[] = [];
   selectedGoldName: string = '';
   goldKara: string = '';
   goldPurity: string = '';
 
   constructor(
-    public dialogRef: MatDialogRef<GoldPricesByMonthComponent>,
+    public dialogRef: MatDialogRef<GoldPricesByYearComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {
     this.goldTypes = mydata;
   }
-
-  closeDialog() {
-    var returned = { type: 'month', selectedGoldName: this.selectedGoldName, goldKara: this.goldKara, goldPurity: this.goldPurity, month: this.month.value };
-    this.dialogRef.close({ event: 'close', data: returned }); 
-  }
-
-  onGoldNameChanged(val: string) {
+  
+  onGoldNameChanged(val: any) {
     var goldType = this.goldTypes.find((value) => value.name == val);
     this.goldKara = goldType?.hamLuongKara === undefined ? '' : goldType.hamLuongKara;
     this.goldPurity = goldType?.hamLuongVang === undefined ? '' : goldType.hamLuongVang;
   }
-    
-  setMonthAndYear(normalizedMonthAndYear: Moment, dpm?: any) {
-    const ctrlValue = this.month.value ?? moment();
-    ctrlValue.month(normalizedMonthAndYear.month());
+
+  closeDialog() {
+    var returned = { type: 'year', selectedGoldName: this.selectedGoldName, goldKara: this.goldKara, goldPurity: this.goldPurity, year: this.year.value };
+    this.dialogRef.close({ event: 'close', data: returned });
+  }
+
+  setYear(normalizedMonthAndYear: Moment, dpy?: any) {
+    const ctrlValue = this.year.value ?? moment();
     ctrlValue.year(normalizedMonthAndYear.year());
-    this.month.setValue(ctrlValue);
-    dpm.close();
+    this.year.setValue(ctrlValue);
+    dpy.close();
   }
 }
