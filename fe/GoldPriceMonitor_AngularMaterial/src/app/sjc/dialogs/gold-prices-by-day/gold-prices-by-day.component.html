@@ -1,0 +1,33 @@
+<h5 mat-dialog-title>Xem giá vàng theo ngày</h5>
+  <mat-dialog-content>
+    <form class="day-form">
+      <mat-form-field>
+        <mat-label>Thành phố</mat-label>
+        <mat-select #city (selectionChange)="onCityChanged(city.value)" [(value)]="selectedCity">
+          @for (city of cities; track city) {
+            <mat-option [value]="city">{{city}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label>Tên vàng</mat-label>
+        <mat-select #goldName (selectionChange)="onGoldNameChanged(goldName.value)" [(value)]="selectedGoldType">
+          @for (type of goldTypes; track type) {
+            <mat-option [value]="type">{{type}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Ngày xem</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="day">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="closeDialog()">Xem</button>
+  </mat-dialog-actions>

@@ -1,1 +1,31 @@
-<p>sjc works!</p>
+<h2>Vàng Sjc</h2>
+<div class="button-row">
+    <button mat-raised-button color="primary" (click)="openDayDialog()">
+      Xem giá vàng theo ngày
+    </button>
+    <!--<button mat-raised-button color="primary" (click)="openDayDialog()">
+      Tuần
+    </button>-->
+    <button mat-raised-button color="primary" (click)="openMonthDialog()">
+      Xem giá vàng theo tháng
+    </button>
+    <button mat-raised-button color="primary" (click)="openYearDialog()">
+      Xem giá vàng theo năm
+    </button>
+    <!--
+    <button mat-raised-button color="primary" (click)="openOtherDialog()">
+      Khác
+    </button>
+    -->
+</div>
+<h2>{{chartTitle}}</h2>
+
+<canvas
+  baseChart
+  class="chart"
+  [data]="lineChartData"
+  [options]="lineChartOptions"
+  [type]="lineChartType"
+  (chartHover)="chartHovered($event)"
+  (chartClick)="chartClicked($event)"
+></canvas>
