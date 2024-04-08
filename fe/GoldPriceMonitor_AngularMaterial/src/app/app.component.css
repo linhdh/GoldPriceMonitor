@@ -3,7 +3,9 @@
     width: 32px;
   }
 
-.MenuLinkActive {
-  color:brown;
-  background-color: blue;
+.menu {
+  flex: 1 1 auto;
+}
+
+.user-panel {
 }
