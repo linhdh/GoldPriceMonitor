@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/be/GoldPriceMonitorApi_DotNet/GoldPriceMonitorApi_DotNet/Hangfire.db
+/be/GoldPriceMonitorApi_DotNet/GoldPriceMonitorApi_DotNet/Hangfire.db-shm
+/be/GoldPriceMonitorApi_DotNet/GoldPriceMonitorApi_DotNet/Hangfire.db-wal
