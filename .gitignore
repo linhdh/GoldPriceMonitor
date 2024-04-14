@@ -399,3 +399,6 @@ FodyWeavers.xsd
 /be/GoldPriceMonitorApi_DotNet/GoldPriceMonitorApi_DotNet/Hangfire.db
 /be/GoldPriceMonitorApi_DotNet/GoldPriceMonitorApi_DotNet/Hangfire.db-shm
 /be/GoldPriceMonitorApi_DotNet/GoldPriceMonitorApi_DotNet/Hangfire.db-wal
+/be/GoldPriceMonitorApi_DotNet_MySql/GoldPriceMonitorApi_DotNet/Hangfire.db
+/be/GoldPriceMonitorApi_DotNet_MySql/GoldPriceMonitorApi_DotNet/Hangfire.db-shm
+/be/GoldPriceMonitorApi_DotNet_MySql/GoldPriceMonitorApi_DotNet/Hangfire.db-wal
