@@ -26,7 +26,7 @@ namespace GoldPriceMonitorApi_DotNet
             {
                 options.AddPolicy(name: "MyCORSPolicy", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200", "http://localhost:4200/").AllowAnyMethod();
+                    policy.WithOrigins("http://localhost:4200", "http://b3.myddns.me:4300/", "http://192.168.100.200:4300").AllowAnyMethod();
                 });
             });
 
@@ -34,19 +34,8 @@ namespace GoldPriceMonitorApi_DotNet
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-
-            if (builder.Environment.IsDevelopment())
-            {
-                builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
-                //builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("default"))));
-
-                builder.Services.AddHangfire(configuration => configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_180).UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnection")));
-            }
-            else
-            {
-                builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("default"))));
-                builder.Services.AddHangfire(configuration => configuration.UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSQLiteStorage());
-            }
+            builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("default"))));
+            builder.Services.AddHangfire(configuration => configuration.UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSQLiteStorage());
 
             builder.Services.AddHangfireServer();
 
@@ -57,10 +46,11 @@ namespace GoldPriceMonitorApi_DotNet
             app.UseHangfireDashboard();
 
             // Configure the HTTP request pipeline.
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
                 app.UseHttpsRedirection();
             }            
 

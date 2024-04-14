@@ -1,0 +1,6 @@
+@GoldPriceMonitorApi_DotNet_HostAddress = http://localhost:5044
+
+GET {{GoldPriceMonitorApi_DotNet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
