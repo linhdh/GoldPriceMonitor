@@ -19,16 +19,15 @@ namespace GoldPriceMonitorApi_DotNet
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
-            builder.Services.AddControllers();
-
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: "MyCORSPolicy", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200", "http://b3.myddns.me:4300/", "http://192.168.100.200:4300").AllowAnyMethod();
+                    policy.WithOrigins("http://localhost:4200", "http://b3.myddns.me:4300", "http://192.168.100.200:4300").AllowAnyHeader().AllowAnyMethod();
                 });
             });
+
+            builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -43,9 +42,9 @@ namespace GoldPriceMonitorApi_DotNet
 
             var app = builder.Build();
 
+            // Configure the HTTP request pipeline.
             app.UseHangfireDashboard();
 
-            // Configure the HTTP request pipeline.
             app.UseSwagger();
             app.UseSwaggerUI();
 
@@ -56,7 +55,7 @@ namespace GoldPriceMonitorApi_DotNet
 
             app.UseCors();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.MapHangfireDashboard();
 

@@ -4,12 +4,13 @@ import { Observable, catchError, retry, throwError } from 'rxjs';
 import { GoldType } from './shared/gold-type';
 import { BaoTinMinhChau } from './shared/bao-tin-minh-chau';
 import { DayPriceMinMax } from './shared/day-price-min-max';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaoTinMinhChauService {
-  apiURL = 'http://localhost:5044';
+  //apiURL = 'http://localhost:5044';
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +22,7 @@ export class BaoTinMinhChauService {
   };
 
   getGoldTypes(): Observable<GoldType[]> {
-    return this.http.get<GoldType[]>(this.apiURL + '/api/BaoTinMinhChaus/GoldTypes').pipe(retry(1), catchError(this.handleError));
+    return this.http.get<GoldType[]>(environment.apiUrl + '/api/BaoTinMinhChaus/GoldTypes').pipe(retry(1), catchError(this.handleError));
   }
 
   // HttpClient API get() method
@@ -31,7 +32,7 @@ export class BaoTinMinhChauService {
     params = params.append('hamLuongKara', goldType.hamLuongKara);
     params = params.append('hamLuongVang', goldType.hamLuongVang);
     return this.http
-      .get<BaoTinMinhChau[]>(this.apiURL + '/api/BaoTinMinhChaus/Today', {
+      .get<BaoTinMinhChau[]>(environment.apiUrl + '/api/BaoTinMinhChaus/Today', {
         params: params, 
         observe: 'body'
       })
@@ -45,7 +46,7 @@ export class BaoTinMinhChauService {
     params = params.append('hamLuongVang', goldType.hamLuongVang);
     params = params.append('ngayXem', day.toLocaleString());
     return this.http
-      .get<BaoTinMinhChau[]>(this.apiURL + '/api/BaoTinMinhChaus/Day', {
+      .get<BaoTinMinhChau[]>(environment.apiUrl + '/api/BaoTinMinhChaus/Day', {
         params: params, 
         observe: 'body'
       })
@@ -59,7 +60,7 @@ export class BaoTinMinhChauService {
     params = params.append('hamLuongVang', goldType.hamLuongVang);
     params = params.append('thangXem', day.toLocaleString());
     return this.http
-      .get<DayPriceMinMax[]>(this.apiURL + '/api/BaoTinMinhChaus/Month', {
+      .get<DayPriceMinMax[]>(environment.apiUrl + '/api/BaoTinMinhChaus/Month', {
         params: params, 
         observe: 'body'
       })
@@ -73,7 +74,7 @@ export class BaoTinMinhChauService {
     params = params.append('hamLuongVang', goldType.hamLuongVang);
     params = params.append('namXem', day.toLocaleString());
     return this.http
-      .get<DayPriceMinMax[]>(this.apiURL + '/api/BaoTinMinhChaus/Year', {
+      .get<DayPriceMinMax[]>(environment.apiUrl + '/api/BaoTinMinhChaus/Year', {
         params: params, 
         observe: 'body'
       })

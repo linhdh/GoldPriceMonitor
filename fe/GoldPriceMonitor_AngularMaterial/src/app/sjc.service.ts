@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { Sjc } from './shared/sjc';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ export class SjcService {
   constructor(private http: HttpClient) { }
 
   getCities(): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + '/api/Sjcs/Cities').pipe(retry(1), catchError(this.handleError));
+    return this.http.get<string[]>(environment.apiUrl + '/api/Sjcs/Cities').pipe(retry(1), catchError(this.handleError));
   }
 
   getTypes(city: string): Observable<string[]> {
     var params = new HttpParams();
     params = params.append('city', city);
-    return this.http.get<string[]>(this.apiURL + '/api/Sjcs/Types', {
+    return this.http.get<string[]>(environment.apiUrl + '/api/Sjcs/Types', {
       params: params, 
       observe: 'body'
     }).pipe(retry(1), catchError(this.handleError));
@@ -30,7 +31,7 @@ export class SjcService {
     params = params.append('city', city);
     params = params.append('ngayXem', day.toLocaleString());
     return this.http
-      .get<Sjc[]>(this.apiURL + '/api/Sjcs/Day', {
+      .get<Sjc[]>(environment.apiUrl + '/api/Sjcs/Day', {
         params: params, 
         observe: 'body'
       })

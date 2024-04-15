@@ -1,10 +1,12 @@
 ﻿using GoldPriceMonitorApi_DotNet.Services;
 using Hangfire;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {
+    [EnableCors("MyCORSPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class HangFireController : ControllerBase

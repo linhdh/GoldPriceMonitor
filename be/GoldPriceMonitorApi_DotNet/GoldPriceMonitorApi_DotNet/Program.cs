@@ -66,7 +66,7 @@ namespace GoldPriceMonitorApi_DotNet
 
             app.UseCors();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.MapHangfireDashboard();
 
