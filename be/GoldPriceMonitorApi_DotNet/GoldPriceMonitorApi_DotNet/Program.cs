@@ -26,7 +26,7 @@ namespace GoldPriceMonitorApi_DotNet
             {
                 options.AddPolicy(name: "MyCORSPolicy", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200", "http://localhost:4200/").AllowAnyMethod();
+                    policy.WithOrigins("http://localhost:4200").AllowAnyMethod();
                 });
             });
 
@@ -35,18 +35,8 @@ namespace GoldPriceMonitorApi_DotNet
             builder.Services.AddSwaggerGen();
 
 
-            if (builder.Environment.IsDevelopment())
-            {
-                builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
-                //builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("default"))));
-
-                builder.Services.AddHangfire(configuration => configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_180).UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnection")));
-            }
-            else
-            {
-                builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("default"))));
-                builder.Services.AddHangfire(configuration => configuration.UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSQLiteStorage());
-            }
+            builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+            builder.Services.AddHangfire(configuration => configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_180).UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnection")));
 
             builder.Services.AddHangfireServer();
 

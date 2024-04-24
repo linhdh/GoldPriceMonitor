@@ -1,0 +1,12 @@
+.example-spacer {
+    flex: 0 1 auto;
+    width: 32px;
+}
+
+.menu {
+    flex: 1 1 auto;
+}
+
+.user-panel {
+    flex: 0 0 auto;
+}
