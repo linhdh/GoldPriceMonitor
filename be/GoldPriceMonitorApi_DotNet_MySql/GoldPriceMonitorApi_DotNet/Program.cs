@@ -5,10 +5,12 @@ using Hangfire;
 using Hangfire.Storage.SQLite;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Hangfire.MySql;
 
 namespace GoldPriceMonitorApi_DotNet
 {
@@ -33,8 +35,46 @@ namespace GoldPriceMonitorApi_DotNet
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<GoldPriceDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("default"))));
-            builder.Services.AddHangfire(configuration => configuration.UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSQLiteStorage());
+            builder.Services.AddDbContext<GoldPriceDbContext>(options =>
+            {
+                var provider = builder.Configuration["DatabaseSettings:Provider"]?.ToString();
+                switch (provider)
+                {
+                    case "MYSQL":
+                        options.UseMySql(builder.Configuration.GetConnectionString("MYSQL"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MYSQL")));
+                        break;
+                    case "MSSQL":
+                        options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
+                        break;
+                    default:
+                        throw new NotSupportedException("Database provider is not supported");
+                }
+            });
+            builder.Services.AddHangfire(configuration =>
+            {
+                var provider = builder.Configuration["HangFireSettings:Storage"]?.ToString();
+                switch(provider)
+                {
+                    case "MYSQL":
+                        configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_180).UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseStorage(new MySqlStorage(builder.Configuration.GetConnectionString("HangFire_MYSQL"), new MySqlStorageOptions
+                        {
+                            QueuePollInterval = TimeSpan.FromSeconds(10),
+                            JobExpirationCheckInterval = TimeSpan.FromHours(1),
+                            CountersAggregateInterval = TimeSpan.FromMinutes(5),
+                            PrepareSchemaIfNecessary = true,
+                            TransactionTimeout = TimeSpan.FromMinutes(1),
+                        }));
+                        break;
+                    case "SQLLITE":
+                        configuration.UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSQLiteStorage();
+                        break;
+                    case "MSSQL":
+                        configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_180).UseSimpleAssemblyNameTypeSerializer().UseRecommendedSerializerSettings().UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFire_MSSQL"));
+                        break;
+                    default:
+                        throw new NotSupportedException("HangFire storage is not supported.");
+                }
+            });
 
             builder.Services.AddHangfireServer();
 

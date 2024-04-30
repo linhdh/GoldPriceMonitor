@@ -5,6 +5,7 @@ import { GoldType } from './shared/gold-type';
 import { BaoTinMinhChau } from './shared/bao-tin-minh-chau';
 import { DayPriceMinMax } from './shared/day-price-min-max';
 import { environment } from '../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { environment } from '../environments/environment';
 export class BaoTinMinhChauService {
   //apiURL = 'http://localhost:5044';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   // Http Options
   httpOptions = {
@@ -22,7 +23,7 @@ export class BaoTinMinhChauService {
   };
 
   getGoldTypes(): Observable<GoldType[]> {
-    return this.http.get<GoldType[]>(environment.apiUrl + '/api/BaoTinMinhChaus/GoldTypes').pipe(retry(1), catchError(this.handleError));
+    return this.http.get<GoldType[]>(environment.apiUrl + '/api/BaoTinMinhChaus/GoldTypes').pipe(retry(1), catchError(this.handleError.bind(this)));
   }
 
   // HttpClient API get() method
@@ -36,7 +37,7 @@ export class BaoTinMinhChauService {
         params: params, 
         observe: 'body'
       })
-      .pipe(retry(1), catchError(this.handleError));
+      .pipe(retry(1), catchError(this.handleError.bind(this)));
   }
 
   getDayPrices(goldType: GoldType, day: Date): Observable<BaoTinMinhChau[]> {
@@ -50,7 +51,7 @@ export class BaoTinMinhChauService {
         params: params, 
         observe: 'body'
       })
-      .pipe(retry(1), catchError(this.handleError));
+      .pipe(retry(1), catchError(this.handleError.bind(this)));
   }
 
   getMonthPrices(goldType: GoldType, day: Date): Observable<DayPriceMinMax[]> {
@@ -64,7 +65,7 @@ export class BaoTinMinhChauService {
         params: params, 
         observe: 'body'
       })
-      .pipe(retry(1), catchError(this.handleError));
+      .pipe(retry(1), catchError(this.handleError.bind(this)));
   }
 
   getYearPrices(goldType: GoldType, day: Date): Observable<DayPriceMinMax[]> {
@@ -78,7 +79,7 @@ export class BaoTinMinhChauService {
         params: params, 
         observe: 'body'
       })
-      .pipe(retry(1), catchError(this.handleError));
+      .pipe(retry(1), catchError(this.handleError.bind(this)));
   }
 
   // Error handling
@@ -89,9 +90,9 @@ export class BaoTinMinhChauService {
       errorMessage = error.error.message;
     } else {
       // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = error.message;
     }
-    window.alert(errorMessage);
+    this.snackBar.open(errorMessage, 'Close');
     return throwError(() => {
       return errorMessage;
     });

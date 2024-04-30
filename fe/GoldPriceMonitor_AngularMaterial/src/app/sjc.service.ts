@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { Sjc } from './shared/sjc';
 import { environment } from '../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { duration } from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +12,10 @@ import { environment } from '../environments/environment';
 export class SjcService {
   apiURL: string = 'http://localhost:5044';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   getCities(): Observable<string[]> {
-    return this.http.get<string[]>(environment.apiUrl + '/api/Sjcs/Cities').pipe(retry(1), catchError(this.handleError));
+    return this.http.get<string[]>(environment.apiUrl + '/api/Sjcs/Cities').pipe(retry(1), catchError(this.handleError.bind(this)));
   }
 
   getTypes(city: string): Observable<string[]> {
@@ -22,7 +24,7 @@ export class SjcService {
     return this.http.get<string[]>(environment.apiUrl + '/api/Sjcs/Types', {
       params: params, 
       observe: 'body'
-    }).pipe(retry(1), catchError(this.handleError));
+    }).pipe(retry(1), catchError(this.handleError.bind(this)));
   }
 
   getDayPrices(goldType: string, city: string, day: Date): Observable<Sjc[]> {
@@ -35,7 +37,7 @@ export class SjcService {
         params: params, 
         observe: 'body'
       })
-      .pipe(retry(1), catchError(this.handleError));
+      .pipe(retry(1), catchError(this.handleError.bind(this)));
   }
 
   // Error handling
@@ -46,9 +48,9 @@ export class SjcService {
       errorMessage = error.error.message;
     } else {
       // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = error.message;
     }
-    window.alert(errorMessage);
+    this.snackBar.open(errorMessage, 'Close');
     return throwError(() => {
       return errorMessage;
     });
