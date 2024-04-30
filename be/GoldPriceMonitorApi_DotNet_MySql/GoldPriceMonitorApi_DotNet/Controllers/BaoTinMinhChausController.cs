@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GoldPriceMonitorApi_DotNet.Database;
 using Microsoft.AspNetCore.Cors;
 using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Requests;
 using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Responses;
+using DatabaseContext;
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {

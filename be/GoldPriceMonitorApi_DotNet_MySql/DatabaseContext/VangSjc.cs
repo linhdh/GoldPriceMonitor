@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GoldPriceMonitorApi_DotNet.Database
+namespace DatabaseContext
 {
     public class VangSjc
     {

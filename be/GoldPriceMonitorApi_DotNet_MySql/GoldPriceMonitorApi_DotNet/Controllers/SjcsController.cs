@@ -1,5 +1,5 @@
-﻿using GoldPriceMonitorApi_DotNet.Controllers.Parameters.SjcsController.Requests;
-using GoldPriceMonitorApi_DotNet.Database;
+﻿using DatabaseContext;
+using GoldPriceMonitorApi_DotNet.Controllers.Parameters.SjcsController.Requests;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

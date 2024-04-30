@@ -1,5 +1,4 @@
 
-using GoldPriceMonitorApi_DotNet.Database;
 using GoldPriceMonitorApi_DotNet.Services;
 using Hangfire;
 using Hangfire.Storage.SQLite;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using Hangfire.MySql;
+using DatabaseContext;
 
 namespace GoldPriceMonitorApi_DotNet
 {
@@ -41,10 +41,10 @@ namespace GoldPriceMonitorApi_DotNet
                 switch (provider)
                 {
                     case "MYSQL":
-                        options.UseMySql(builder.Configuration.GetConnectionString("MYSQL"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MYSQL")));
+                        options.UseMySql(builder.Configuration.GetConnectionString("MYSQL"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MYSQL")), b => b.MigrationsAssembly("MYSQL_Migrations"));
                         break;
                     case "MSSQL":
-                        options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
+                        options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL"), b => b.MigrationsAssembly("MSSQL_Migrations"));
                         break;
                     default:
                         throw new NotSupportedException("Database provider is not supported");

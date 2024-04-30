@@ -32,4 +32,10 @@
     <Folder Include="Controllers\Parameters\SjcsController\Responses\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseContext\DatabaseContext.csproj" />
+    <ProjectReference Include="..\MSSQL_Migrations\MSSQL_Migrations.csproj" />
+    <ProjectReference Include="..\MYSQL_Migrations\MYSQL_Migrations.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace GoldPriceMonitorApi_DotNet.Database
+﻿namespace DatabaseContext
 {
     public class VnExpressDotNet
     {
