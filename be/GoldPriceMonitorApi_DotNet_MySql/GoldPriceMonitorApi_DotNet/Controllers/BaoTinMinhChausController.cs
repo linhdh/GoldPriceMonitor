@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Cors;
 using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Requests;
 using GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Responses;
 using DatabaseContext;
+using BaoTinMinhChau = GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinMinhChausController.Responses.BaoTinMinhChau;
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {
@@ -40,7 +41,6 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
         {
             var baoTinMinhChau = await _context.BaoTinMinhChaus.Where(b => b.Name == type.Name && b.HamLuongVang == type.HamLuongVang && b.HamLuongKara == type.HamLuongKara && b.ThoiGianNhap.Date == DateTime.Now.Date).OrderBy(b => b.ThoiGianNhap).Select(b => new BaoTinMinhChau()
             {
-                Id = b.Id, 
                 Name = b.Name, 
                 HamLuongVang = b.HamLuongVang, 
                 HamLuongKara = b.HamLuongKara, 
@@ -62,7 +62,6 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
         {
             var baoTinMinhChau = await _context.BaoTinMinhChaus.Where(b => b.Name == args.Name && b.HamLuongVang == args.HamLuongVang && b.HamLuongKara == args.HamLuongKara && b.ThoiGianNhap.Date == args.NgayXem.Date).OrderBy(b => b.ThoiGianNhap).Select(b => new BaoTinMinhChau()
             {
-                Id = b.Id,
                 Name = b.Name,
                 HamLuongVang = b.HamLuongVang,
                 HamLuongKara = b.HamLuongKara,
@@ -87,10 +86,10 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
                 Name = b.Key.Name,
                 HamLuongVang = b.Key.HamLuongVang,
                 HamLuongKara = b.Key.HamLuongKara,
-                GiaBanRaMin = b.Min<BaoTinMinhChau>(bi => bi.GiaBanRa),
-                GiaBanRaMax = b.Max<BaoTinMinhChau>(bi => bi.GiaBanRa),
-                GiaMuaVaoMin = b.Min<BaoTinMinhChau>(bi => bi.GiaMuaVao),
-                GiaMuaVaoMax = b.Max<BaoTinMinhChau>(bi => bi.GiaMuaVao), 
+                GiaBanRaMin = b.Min<DatabaseContext.BaoTinMinhChau>(bi => bi.GiaBanRa),
+                GiaBanRaMax = b.Max<DatabaseContext.BaoTinMinhChau>(bi => bi.GiaBanRa),
+                GiaMuaVaoMin = b.Min<DatabaseContext.BaoTinMinhChau>(bi => bi.GiaMuaVao),
+                GiaMuaVaoMax = b.Max<DatabaseContext.BaoTinMinhChau>(bi => bi.GiaMuaVao), 
                 ThoiGianNhap = b.Key.Date
             }).ToListAsync();
 
@@ -109,11 +108,32 @@ namespace GoldPriceMonitorApi_DotNet.Controllers
                 Name = b.Key.Name,
                 HamLuongVang = b.Key.HamLuongVang,
                 HamLuongKara = b.Key.HamLuongKara,
-                GiaBanRaMin = b.Min<BaoTinMinhChau>(bi => bi.GiaBanRa),
-                GiaBanRaMax = b.Max<BaoTinMinhChau>(bi => bi.GiaBanRa),
-                GiaMuaVaoMin = b.Min<BaoTinMinhChau>(bi => bi.GiaMuaVao),
-                GiaMuaVaoMax = b.Max<BaoTinMinhChau>(bi => bi.GiaMuaVao),
+                GiaBanRaMin = b.Min<DatabaseContext.BaoTinMinhChau>(bi => bi.GiaBanRa),
+                GiaBanRaMax = b.Max<DatabaseContext.BaoTinMinhChau>(bi => bi.GiaBanRa),
+                GiaMuaVaoMin = b.Min<DatabaseContext.BaoTinMinhChau>(bi => bi.GiaMuaVao),
+                GiaMuaVaoMax = b.Max<DatabaseContext.BaoTinMinhChau>(bi => bi.GiaMuaVao),
                 ThoiGianNhap = b.Key.Date
+            }).ToListAsync();
+
+            if (baoTinMinhChau.Any())
+            {
+                return baoTinMinhChau;
+            }
+            return NotFound();
+        }
+
+        [HttpGet("CustomRange")]
+        public async Task<ActionResult<IEnumerable<BaoTinMinhChau>>> GetCustomRangePrices([FromQuery] CustomRangePrices args)
+        {
+            var baoTinMinhChau = await _context.BaoTinMinhChaus.Where(b => b.Name == args.Name && b.HamLuongVang == args.HamLuongVang && b.HamLuongKara == args.HamLuongKara && b.ThoiGianNhap.Date >= args.FromTime.Date && b.ThoiGianNhap.Date <= args.ToTime.Date).OrderBy(b => b.ThoiGianNhap).Select(b => new BaoTinMinhChau
+            {
+                Name = b.Name,
+                HamLuongVang = b.HamLuongVang,
+                HamLuongKara = b.HamLuongKara,
+                GiaBanRa = b.GiaBanRa,
+                GiaMuaVao = b.GiaMuaVao,
+                GiaTheGioi = b.GiaTheGioi,
+                ThoiGianNhap = b.ThoiGianNhap
             }).ToListAsync();
 
             if (baoTinMinhChau.Any())

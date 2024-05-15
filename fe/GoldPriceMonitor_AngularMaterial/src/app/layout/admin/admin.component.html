@@ -2,6 +2,29 @@
     <span routerLink="">Giá vàng Việt Nam</span>
     <span class="example-spacer"></span>
     <div class="menu">
+      <button mat-button [matMenuTriggerFor]="menuBTMC" aria-label="Xem giá vàng Bảo tín minh châu" matTooltip="Xem giá vàng Bảo tín minh châu">
+        Bảo tín minh châu
+      </button>
+      <mat-menu #menuBTMC="matMenu">
+        <button mat-menu-item>
+          <span>Biểu đồ giá vàng</span>
+        </button>
+        <button mat-menu-item>
+          <span>Bảng giá vàng</span>
+        </button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="menuSjc" aria-label="Xem giá vàng Sjc" matTooltip="Xem giá vàng Sjc">
+        Sjc
+      </button>
+      <mat-menu #menuSjc="matMenu">
+        <button mat-menu-item>
+          <span>Biểu đồ giá vàng</span>
+        </button>
+        <button mat-menu-item>
+          <span>Bảng giá vàng</span>
+        </button>
+      </mat-menu>
+      <!--
       <button mat-button aria-label="Thông tin CSDL">
         Dashboard
       </button>
@@ -17,7 +40,8 @@
       <button mat-button aria-label="Điều khiển HangFire">
         Hang Fire
       </button>
-    </div>
+      -->
+    </div>    
     <div class="user-panel">
       <button mat-button [color]="rla3.isActive ? 'primary' : ''" aria-label="Đăng nhập" routerLink="login" routerLinkActive #rla3="routerLinkActive">
         Login

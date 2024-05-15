@@ -11,23 +11,21 @@
 </div>
 -->
 <div class="button-row">
-    <button mat-raised-button color="primary" (click)="openDayDialog()">
-      Xem giá vàng theo ngày
+    <button mat-raised-button color="primary" (click)="openDayDialog()" matTooltip="Biểu đồ sự thay đổi của giá vàng trong 1 ngày bất kỳ">
+      Theo ngày
     </button>
     <!--<button mat-raised-button color="primary" (click)="openDayDialog()">
       Tuần
     </button>-->
-    <button mat-raised-button color="primary" (click)="openMonthDialog()">
-      Xem giá vàng theo tháng
+    <button mat-raised-button color="primary" (click)="openMonthDialog()" matTooltip="Biểu đồ giá vàng lớn nhất, nhỏ nhất của từng ngày trong 1 tháng">
+      Theo tháng
     </button>
-    <button mat-raised-button color="primary" (click)="openYearDialog()">
-      Xem giá vàng theo năm
+    <button mat-raised-button color="primary" (click)="openYearDialog()" matTooltip="Biểu đồ giá vàng lớn nhất, nhỏ nhất của từng ngày trong 1 năm">
+      Theo năm
     </button>
-    <!--
-    <button mat-raised-button color="primary" (click)="openOtherDialog()">
-      Khác
+    <button mat-raised-button color="primary" (click)="openOtherDialog()" matTooltip="Biểu đồ giá vàng trong một khoảng thời gian bất kỳ">
+      Theo khoảng thời gian
     </button>
-    -->
 </div>
 <h2>{{chartTitle}}</h2>
 

@@ -14,6 +14,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
@@ -35,7 +36,8 @@ import { GoldPricesByDayComponent } from './dialogs/gold-prices-by-day/gold-pric
               MatDatepickerModule, 
               MatInputModule, 
               ReactiveFormsModule, 
-              MatSelectModule ],
+              MatSelectModule, 
+              MatTooltipModule ],
   templateUrl: './bao-tin-minh-chau.component.html',
   styleUrl: './bao-tin-minh-chau.component.css'
 })

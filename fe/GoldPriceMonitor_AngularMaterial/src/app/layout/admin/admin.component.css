@@ -10,3 +10,7 @@
 .user-panel {
     flex: 0 0 auto;
 }
+
+::ng-deep .mat-mdc-menu-panel {
+    max-width: none !important;
+}
