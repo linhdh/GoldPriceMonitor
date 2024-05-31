@@ -18,10 +18,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DayPriceMinMax } from '../shared/day-price-min-max';
 import { GoldPricesByMonthComponent } from './dialogs/gold-prices-by-month/gold-prices-by-month.component';
 import { GoldPricesByYearComponent } from './dialogs/gold-prices-by-year/gold-prices-by-year.component';
 import { GoldPricesByDayComponent } from './dialogs/gold-prices-by-day/gold-prices-by-day.component';
+import { GoldPricesByCustomRangeComponent } from './dialogs/gold-prices-by-custom-range/gold-prices-by-custom-range.component';
 
 
 @Component({
@@ -37,7 +40,9 @@ import { GoldPricesByDayComponent } from './dialogs/gold-prices-by-day/gold-pric
               MatInputModule, 
               ReactiveFormsModule, 
               MatSelectModule, 
-              MatTooltipModule ],
+              MatTooltipModule,
+              MatProgressSpinnerModule,
+              MatProgressBarModule ],
   templateUrl: './bao-tin-minh-chau.component.html',
   styleUrl: './bao-tin-minh-chau.component.css'
 })
@@ -48,11 +53,16 @@ export class BaoTinMinhChauComponent {
   ngayXem_Day: Date = new Date();
   chartTitle: string = '';
   goldTypes: GoldType[] = [];
+  showProgressBarCount: number = 0;
 
   constructor(private httpService: BaoTinMinhChauService, public dialog: MatDialog) {
     //Chart.register(Annotation);
+    this.showProgressBarCount++;
     this.httpService.getGoldTypes().subscribe((data: GoldType[]) => {
       this.goldTypes = data;
+      this.showProgressBarCount--;
+    }, error => {
+      this.showProgressBarCount--;
     });
   }
 
@@ -322,7 +332,7 @@ export class BaoTinMinhChauComponent {
   }
 
   openOtherDialog() {
-    throw new Error('Method not implemented.');
+    const myTempDialog = this.dialog.open(GoldPricesByCustomRangeComponent, { });
   }
    
   openYearDialog() {
