@@ -24,13 +24,14 @@ export class GoldPricesByDayComponent implements OnInit {
   goldPurity: string = '';
   goldTypes: GoldType[] = [];
   selectedGoldName: string = '';
+  selectedGoldValue: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<GoldPricesByDayComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public mydata: any
   ) {
     this.goldTypes = mydata.goldTypes;
-    this.selectedGoldName = mydata.selectedGoldName;
+    this.selectedGoldValue = mydata.selectedGoldName + ' + ' + mydata.goldKara + ' + ' + mydata.goldPurity;
     this.goldKara = mydata.goldKara;
     this.goldPurity = mydata.goldPurity;
     this.day.setValue(mydata.ngayXem);
@@ -40,7 +41,9 @@ export class GoldPricesByDayComponent implements OnInit {
   }
 
   onGoldNameChanged(val: string) {
-    var goldType = this.goldTypes.find((value) => value.name == val);
+    var valStrs = val.split(' + ');
+    this.selectedGoldName = valStrs[0];
+    var goldType = this.goldTypes.find((value) => value.name == valStrs[0] && value.hamLuongKara == valStrs[1] && value.hamLuongVang == valStrs[2]);
     this.goldKara = goldType?.hamLuongKara === undefined ? '' : goldType.hamLuongKara;
     this.goldPurity = goldType?.hamLuongVang === undefined ? '' : goldType.hamLuongVang;
   }

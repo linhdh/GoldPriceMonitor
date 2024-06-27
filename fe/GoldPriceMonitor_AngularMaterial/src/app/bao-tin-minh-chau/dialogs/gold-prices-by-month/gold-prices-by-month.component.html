@@ -3,9 +3,9 @@
     <form class="month-form">
       <mat-form-field>
         <mat-label>Tên vàng</mat-label>
-        <mat-select #goldNameMonth (selectionChange)="onGoldNameChanged(goldNameMonth.value)" [(value)]="selectedGoldName">
+        <mat-select #goldNameMonth (selectionChange)="onGoldNameChanged(goldNameMonth.value)" [(value)]="selectedGoldValue">
           @for (type of goldTypes; track type) {
-            <mat-option [value]="type.name">{{type.name}}</mat-option>
+            <mat-option [value]="type.name + ' + ' + type.hamLuongKara + ' + ' + type.hamLuongVang">{{type.name}}</mat-option>
           }
         </mat-select>
       </mat-form-field>

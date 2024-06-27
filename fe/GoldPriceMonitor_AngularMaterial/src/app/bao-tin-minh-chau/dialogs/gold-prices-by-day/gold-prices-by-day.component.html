@@ -3,9 +3,9 @@
     <form class="day-form">
       <mat-form-field>
         <mat-label>Tên vàng</mat-label>
-        <mat-select #goldName (selectionChange)="onGoldNameChanged(goldName.value)" [(value)]="selectedGoldName">
+        <mat-select #goldName (selectionChange)="onGoldNameChanged(goldName.value)" [(value)]="selectedGoldValue">
           @for (type of goldTypes; track type) {
-            <mat-option [value]="type.name">{{type.name}}</mat-option>
+            <mat-option [value]="type.name + ' + ' + type.hamLuongKara + ' + ' + type.hamLuongVang">{{type.name}}</mat-option>
           }
         </mat-select>
       </mat-form-field>

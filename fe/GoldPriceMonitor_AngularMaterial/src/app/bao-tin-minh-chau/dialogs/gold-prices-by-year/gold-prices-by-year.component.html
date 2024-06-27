@@ -3,9 +3,9 @@
     <form class="year-form">
       <mat-form-field>
         <mat-label>Tên vàng</mat-label>
-        <mat-select #goldNameYear (selectionChange)="onGoldNameChanged(goldNameYear.value)" [(value)]="selectedGoldName">
+        <mat-select #goldNameYear (selectionChange)="onGoldNameChanged(goldNameYear.value)" [(value)]="selectedGoldValue">
           @for (type of goldTypes; track type) {
-            <mat-option [value]="type.name">{{type.name}}</mat-option>
+            <mat-option [value]="type.name + ' + ' + type.hamLuongKara + ' + ' + type.hamLuongVang">{{type.name}}</mat-option>
           }
         </mat-select>
       </mat-form-field>

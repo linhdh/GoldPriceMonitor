@@ -45,6 +45,7 @@ export class GoldPricesByYearComponent {
   year = new FormControl(moment());
   goldTypes: GoldType[] = [];
   selectedGoldName: string = '';
+  selectedGoldValue: string = '';
   goldKara: string = '';
   goldPurity: string = '';
 
@@ -56,7 +57,9 @@ export class GoldPricesByYearComponent {
   }
   
   onGoldNameChanged(val: any) {
-    var goldType = this.goldTypes.find((value) => value.name == val);
+    var valStrs = val.split(' + ');
+    this.selectedGoldName = valStrs[0];
+    var goldType = this.goldTypes.find((value) => value.name == valStrs[0] && value.hamLuongKara == valStrs[1] && value.hamLuongVang == valStrs[2]);
     this.goldKara = goldType?.hamLuongKara === undefined ? '' : goldType.hamLuongKara;
     this.goldPurity = goldType?.hamLuongVang === undefined ? '' : goldType.hamLuongVang;
   }
