@@ -1,1 +1,37 @@
-<p>login works!</p>
+<mat-card class="sign-in-card" appearance="outlined">
+    <mat-card-content>
+        <div class="title">
+            <h2 class="subtitle-1">Sign In</h2>
+            <p class="mat-body">Don’t have an account yet? <a routerLink="/authentication/sign-up">Sign Up</a></p>
+        </div>
+        <form>
+            <mat-form-field class="full-width">
+                <mat-label>Enter your email</mat-label>
+                <input matInput type="email">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Enter your password</mat-label>
+                <input matInput type="password">
+            </mat-form-field>
+            <div id="remember-forgot">
+                <mat-checkbox>Remember me</mat-checkbox>
+                <div id="flex-spacer"></div>
+                <a routerLink="/authentication/forgot-password">Forgot Password?</a>
+            </div>
+            <button mat-stroked-button type="submit" id="sign-in-button">Sign In</button>
+            <mat-divider></mat-divider>
+            <span id="d-block">or sign in with</span>
+            <div id="social-login">
+                <button mat-icon-button class="social-login-button">
+                    <i class="ri-microsoft-fill"></i>
+                </button>
+                <button mat-icon-button class="social-login-button">
+                    <i class="ri-google-fill"></i>
+                </button>
+                <button mat-icon-button class="social-login-button">
+                    <i class="ri-facebook-fill"></i>
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
