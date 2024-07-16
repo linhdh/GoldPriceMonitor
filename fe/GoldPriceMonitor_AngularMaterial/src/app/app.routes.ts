@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './layout/admin/admin.component';
 import { AuthComponent } from './layout/auth/auth.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 export const routes: Routes = [
     { 
@@ -25,6 +26,11 @@ export const routes: Routes = [
                 path: 'sign-up', 
                 component: SignUpComponent, 
                 title: 'Tạo tài khoản mới'
+            }, 
+            {
+                path: 'forgot-password', 
+                component: ForgotPasswordComponent, 
+                title: 'Quên mật khẩu'
             }
         ]
     },
