@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseContext
 {
-    public class GoldPriceDbContext : DbContext
+    public class GoldPriceDbContext : IdentityDbContext
     {
         public GoldPriceDbContext(DbContextOptions<GoldPriceDbContext> options) : base(options) { }
 

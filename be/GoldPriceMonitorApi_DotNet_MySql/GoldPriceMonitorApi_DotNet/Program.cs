@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using Hangfire.MySql;
 using DatabaseContext;
+using Microsoft.AspNetCore.Identity;
 
 namespace GoldPriceMonitorApi_DotNet
 {
@@ -30,6 +31,9 @@ namespace GoldPriceMonitorApi_DotNet
             });
 
             builder.Services.AddControllers();
+
+            //Configure Identity Service
+            builder.Services.AddIdentityCore<IdentityUser>().AddEntityFrameworkStores<GoldPriceDbContext>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -95,7 +99,8 @@ namespace GoldPriceMonitorApi_DotNet
 
             app.UseCors();
 
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapHangfireDashboard();
 
