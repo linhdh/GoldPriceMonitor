@@ -4,6 +4,7 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MSSQL_Migrations.Migrations
 {
     [DbContext(typeof(GoldPriceDbContext))]
-    partial class GoldPriceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240717212614_IdentityMigration2_MSSQL")]
+    partial class IdentityMigration2_MSSQL
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

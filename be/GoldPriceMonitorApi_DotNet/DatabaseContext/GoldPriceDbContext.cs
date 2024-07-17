@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseContext
 {
-    public class GoldPriceDbContext : IdentityDbContext
+    public class GoldPriceDbContext : IdentityDbContext<ApplicationUser>
     {
         public GoldPriceDbContext(DbContextOptions<GoldPriceDbContext> options) : base(options) { }
 

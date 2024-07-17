@@ -34,7 +34,7 @@ namespace GoldPriceMonitorApi_DotNet
 
             builder.Services.AddControllers();
 
-            builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
+            builder.Services.AddIdentityApiEndpoints<ApplicationUser>(options =>
             {
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = false;
@@ -137,7 +137,7 @@ namespace GoldPriceMonitorApi_DotNet
 
             app.MapHangfireDashboard();
 
-            app.MapIdentityApi<IdentityUser>()/*.AllowAnonymous()*/;
+            app.MapIdentityApi<ApplicationUser>()/*.AllowAnonymous()*/;
 
             app.MapControllers();
 
