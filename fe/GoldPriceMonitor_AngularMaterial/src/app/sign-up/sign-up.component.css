@@ -34,3 +34,23 @@
 #name-fields .name {
     width: 200px;
 }
+
+a:link {
+    color: red;
+}
+
+a:visited {
+    color: red;
+}
+
+a:hover {
+    color: red;
+}
+
+a:active {
+    color: red;
+}
+
+a:focus {
+    color: red;
+}

@@ -1,4 +1,4 @@
-﻿using GoldPriceMonitorApi_DotNet.Database;
+﻿using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
