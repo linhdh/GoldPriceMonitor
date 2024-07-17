@@ -12,6 +12,7 @@ using Hangfire.MySql;
 using DatabaseContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 
 namespace GoldPriceMonitorApi_DotNet
@@ -33,12 +34,43 @@ namespace GoldPriceMonitorApi_DotNet
 
             builder.Services.AddControllers();
 
-            builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<GoldPriceDbContext>();
+            builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = false;
+            }).AddEntityFrameworkStores<GoldPriceDbContext>();
             builder.Services.AddAuthorization();
             
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Gold Price Monitor", Version = "v1" });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+            });
 
             builder.Services.AddDbContext<GoldPriceDbContext>(options =>
             {
