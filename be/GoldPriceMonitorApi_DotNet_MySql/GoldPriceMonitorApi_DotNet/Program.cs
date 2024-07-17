@@ -13,6 +13,8 @@ using Hangfire.MySql;
 using DatabaseContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GoldPriceMonitorApi_DotNet
 {
@@ -33,12 +35,9 @@ namespace GoldPriceMonitorApi_DotNet
 
             builder.Services.AddControllers();
 
-            //Configure Identity Service
-            builder.Services.AddDataProtection();
-            builder.Services.AddScoped<ISecurityStampValidator, MySecurityStampValidator>();
-            builder.Services.AddSingleton(TimeProvider.System);
-            builder.Services.AddIdentityCore<IdentityUser>().AddEntityFrameworkStores<GoldPriceDbContext>().AddApiEndpoints().AddDefaultTokenProviders();
-
+            builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<GoldPriceDbContext>();
+            builder.Services.AddAuthorization();
+            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
