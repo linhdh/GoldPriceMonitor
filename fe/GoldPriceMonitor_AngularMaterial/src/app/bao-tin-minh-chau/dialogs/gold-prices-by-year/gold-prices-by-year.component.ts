@@ -39,7 +39,7 @@ export const MY_MONTH_FORMATS = {
   ], 
   imports: [ MatDialogModule, MatButtonModule, MatFormFieldModule, MatSelectModule, MatSelectModule, MatDatepickerModule, ReactiveFormsModule, MatInputModule ],
   templateUrl: './gold-prices-by-year.component.html',
-  styleUrl: './gold-prices-by-year.component.css'
+  styleUrl: './gold-prices-by-year.component.scss'
 })
 export class GoldPricesByYearComponent {
   year = new FormControl(moment());

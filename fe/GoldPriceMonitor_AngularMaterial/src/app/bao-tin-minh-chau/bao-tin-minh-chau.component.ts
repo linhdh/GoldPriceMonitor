@@ -44,7 +44,7 @@ import { GoldPricesByCustomRangeComponent } from './dialogs/gold-prices-by-custo
               MatProgressSpinnerModule,
               MatProgressBarModule ],
   templateUrl: './bao-tin-minh-chau.component.html',
-  styleUrl: './bao-tin-minh-chau.component.css'
+  styleUrl: './bao-tin-minh-chau.component.scss'
 })
 export class BaoTinMinhChauComponent {
   selectedGoldName_Day: string = '';

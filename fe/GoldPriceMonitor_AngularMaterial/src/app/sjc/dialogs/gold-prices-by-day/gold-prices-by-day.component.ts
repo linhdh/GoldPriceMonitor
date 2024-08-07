@@ -22,7 +22,7 @@ import { SjcService } from '../../../sjc.service';
     MatDatepickerModule, 
     ReactiveFormsModule ],
   templateUrl: './gold-prices-by-day.component.html',
-  styleUrl: './gold-prices-by-day.component.css'
+  styleUrl: './gold-prices-by-day.component.scss'
 })
 export class GoldPricesByDayComponent {
   day = new FormControl(new Date());

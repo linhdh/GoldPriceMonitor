@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
   standalone: true,
   imports: [ MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule ],
   templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.css'
+  styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
 

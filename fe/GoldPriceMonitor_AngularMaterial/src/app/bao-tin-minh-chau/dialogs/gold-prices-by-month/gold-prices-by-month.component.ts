@@ -47,7 +47,7 @@ export const MY_MONTH_FORMATS = {
               MatCommonModule
             ],
   templateUrl: './gold-prices-by-month.component.html',
-  styleUrl: './gold-prices-by-month.component.css'
+  styleUrl: './gold-prices-by-month.component.scss'
 })
 export class GoldPricesByMonthComponent {
   month = new FormControl(moment());

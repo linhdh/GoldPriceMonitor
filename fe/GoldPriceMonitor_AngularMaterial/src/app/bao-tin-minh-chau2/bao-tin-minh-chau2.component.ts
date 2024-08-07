@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './bao-tin-minh-chau2.component.html',
-  styleUrl: './bao-tin-minh-chau2.component.css'
+  styleUrl: './bao-tin-minh-chau2.component.scss'
 })
 export class BaoTinMinhChau2Component {
 

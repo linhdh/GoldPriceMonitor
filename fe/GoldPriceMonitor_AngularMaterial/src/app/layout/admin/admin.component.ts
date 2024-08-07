@@ -12,7 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   standalone: true,
   imports: [ RouterModule, MatButtonModule, MatToolbarModule, MatMenuModule, MatIconModule, MatDividerModule, MatTooltipModule ],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
 

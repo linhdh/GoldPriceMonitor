@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
     NgChartsModule, MatButtonModule
   ],
   templateUrl: './sjc.component.html',
-  styleUrl: './sjc.component.css'
+  styleUrl: './sjc.component.scss'
 })
 export class SjcComponent {
   selectedGoldType_Day: string = '';

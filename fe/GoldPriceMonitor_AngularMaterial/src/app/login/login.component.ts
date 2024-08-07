@@ -24,7 +24,7 @@ import { MatDividerModule } from '@angular/material/divider';
     FormsModule
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 }

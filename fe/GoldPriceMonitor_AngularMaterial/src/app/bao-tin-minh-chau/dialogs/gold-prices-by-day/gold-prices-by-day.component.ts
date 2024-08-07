@@ -16,7 +16,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   ], 
   imports: [ MatButtonModule, MatDialogModule, MatInputModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, ReactiveFormsModule ],
   templateUrl: './gold-prices-by-day.component.html',
-  styleUrl: './gold-prices-by-day.component.css'
+  styleUrl: './gold-prices-by-day.component.scss'
 })
 export class GoldPricesByDayComponent implements OnInit {
   day = new FormControl(new Date());

@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
   ],
   imports: [ MatDialogModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatButtonModule, MatInputModule ],
   templateUrl: './gold-prices-by-custom-range.component.html',
-  styleUrl: './gold-prices-by-custom-range.component.css'
+  styleUrl: './gold-prices-by-custom-range.component.scss'
 })
 export class GoldPricesByCustomRangeComponent {
   day = new FormControl(new Date());

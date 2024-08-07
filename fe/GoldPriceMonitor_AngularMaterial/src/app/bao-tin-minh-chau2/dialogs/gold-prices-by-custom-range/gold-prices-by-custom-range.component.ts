@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ], 
   imports: [ MatDialogModule, MatButtonModule, MatFormFieldModule ],
   templateUrl: './gold-prices-by-custom-range.component.html',
-  styleUrl: './gold-prices-by-custom-range.component.css'
+  styleUrl: './gold-prices-by-custom-range.component.scss'
 })
 export class GoldPricesByCustomRangeComponent {
 

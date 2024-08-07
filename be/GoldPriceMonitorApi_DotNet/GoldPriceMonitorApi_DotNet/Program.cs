@@ -10,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using System;
 using Hangfire.MySql;
 using DatabaseContext;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.OpenApi.Models;
 
@@ -137,7 +136,7 @@ namespace GoldPriceMonitorApi_DotNet
 
             app.MapHangfireDashboard();
 
-            app.MapIdentityApi<ApplicationUser>()/*.AllowAnonymous()*/;
+            app.MapGroup("api/identity").MapIdentityApi<ApplicationUser>()/*.AllowAnonymous()*/;
 
             app.MapControllers();
 
