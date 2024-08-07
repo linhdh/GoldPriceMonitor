@@ -3,7 +3,7 @@
         <div class="title">
             <h2 class="subtitle-1">Sign Up</h2>
         </div>
-        <form>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <!--
             <div id="name-fields">
                 <mat-form-field class="name">
@@ -19,15 +19,39 @@
             -->
             <mat-form-field class="full-width">
                 <mat-label>Email</mat-label>
-                <input matInput type="email">
+                <input matInput type="email" class="form-control" formControlName="emailControl">
+                <mat-error *ngIf="emailControl!.hasError('required')">
+                    Email is required.
+                </mat-error>
+                <mat-error *ngIf="emailControl!.hasError('email')">
+                    Email is invalid.
+                </mat-error>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label>Password</mat-label>
-                <input matInput type="password">
+                <input matInput type="password" formControlName="passwordControl">
+                <mat-error *ngIf="passwordControl!.hasError('required')">
+                    Password is required.
+                </mat-error>
+                <mat-error *ngIf="passwordControl!.hasError('minlength')">
+                    Password must be at least 3 characters long.
+                </mat-error>
+                <mat-error *ngIf="passwordControl!.hasError('maxlength')">
+                    Password must be less than 20 characters long.
+                </mat-error>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label>Re-enter password</mat-label>
-                <input matInput type="password">
+                <input matInput type="password" formControlName="repasswordControl">
+                <mat-error *ngIf="repasswordControl!.hasError('required')">
+                    Re-enter password is required.
+                </mat-error>
+                <mat-error *ngIf="repasswordControl!.hasError('minlength')">
+                    Re-enter password must be at least 3 characters long.
+                </mat-error>
+                <mat-error *ngIf="repasswordControl!.hasError('maxlength')">
+                    Re-enter password must be less than 20 characters long.
+                </mat-error>
             </mat-form-field>
             <button mat-stroked-button type="submit" id="sign-up-button">Sign Up</button>
             <a href="login" style="float: right;">Back to Sign In</a>
