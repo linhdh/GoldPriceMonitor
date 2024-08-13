@@ -24,7 +24,7 @@
                     Email is required.
                 </mat-error>
                 <mat-error *ngIf="emailControl!.hasError('email')">
-                    Email is invalid.
+                    Invalid email.
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="full-width">
@@ -51,6 +51,9 @@
                 </mat-error>
                 <mat-error *ngIf="repasswordControl!.hasError('maxlength')">
                     Re-enter password must be less than 20 characters long.
+                </mat-error>
+                <mat-error *ngIf="this.signupForm!.hasError('repasswordIsMatched')">
+                    Re-enter password must be the same with Password.
                 </mat-error>
             </mat-form-field>
             <button mat-stroked-button type="submit" id="sign-up-button">Sign Up</button>

@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../auth.service';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { CommonModule } from '@angular/common';
+import { repasswordIsMatchedValidator } from '../shared/repassword-is-matched.cross-validation';
 
 @Component({
   selector: 'app-sign-up',
@@ -16,11 +17,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
-  signupForm = new FormGroup({
+  signupForm: FormGroup = new FormGroup({
     emailControl: new FormControl('', [Validators.required, Validators.email]),
     passwordControl: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
     repasswordControl: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
-  });
+  }, { validators: repasswordIsMatchedValidator });
 
   get emailControl() {
     return this.signupForm.get('emailControl');
@@ -40,9 +41,10 @@ export class SignUpComponent {
 
   onSubmit() {
     //  TODO: Use EventEmitter with form value
-    console.warn(this.signupForm.value);
     if (this.signupForm.invalid) {
+      console.warn(this.signupForm.value);
       this.signupForm.markAllAsTouched();
+      this.signupForm.markAsDirty();
       return;
     }
 
