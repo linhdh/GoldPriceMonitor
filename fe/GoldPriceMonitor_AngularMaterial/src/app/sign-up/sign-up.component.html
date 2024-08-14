@@ -46,18 +46,17 @@
                 <mat-error *ngIf="repasswordControl!.hasError('required')">
                     Re-enter password is required.
                 </mat-error>
-                <mat-error *ngIf="repasswordControl!.hasError('minlength')">
-                    Re-enter password must be at least 3 characters long.
-                </mat-error>
-                <mat-error *ngIf="repasswordControl!.hasError('maxlength')">
-                    Re-enter password must be less than 20 characters long.
-                </mat-error>
-                <mat-error *ngIf="this.signupForm!.hasError('repasswordIsMatched')">
+                <mat-error *ngIf="repasswordControl!.hasError('repasswordIsMatched')">
                     Re-enter password must be the same with Password.
                 </mat-error>
             </mat-form-field>
             <button mat-stroked-button type="submit" id="sign-up-button">Sign Up</button>
-            <a href="login" style="float: right;">Back to Sign In</a>
+            <div style="display: flex; width: 100%; align-items: end; flex-direction: column;">
+                <a href="login">Back to Sign In</a>
+            </div>
+            <mat-error *ngFor="let error of serverErrors">
+                {{error}}
+            </mat-error>
         </form>
     </mat-card-content>
 </mat-card>

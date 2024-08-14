@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SignUpModel } from './shared/sign-up-model';
-import { Observable, catchError, retry, throwError } from 'rxjs';
+import { Observable, catchError, retry, throwError, of } from 'rxjs';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -12,23 +12,29 @@ export class AuthService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
-  registerUser(user: SignUpModel): Observable<void> {
-    return this.http.get<void>(environment.apiUrl + '/api/identity/register').pipe(retry(1), catchError(this.handleError.bind(this)));
+  registerUser(newSignUp: SignUpModel): Observable<any> {
+    return this.http.post(environment.apiUrl + '/api/identity/register', newSignUp).pipe(catchError(this.handleError.bind(this)));
   }
 
   // Error handling
-  handleError(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
+  handleError(error: HttpErrorResponse) {
+    //console.log(error);
+    //let errorMessage = '';
+    let errorMessages: string[] = [];
+    if (error.status === 0) {
+      //errorMessage = error.error;
+      this.snackBar.open(error.error, 'Close');
+      return of();
     } else {
       // Get server-side error
-      errorMessage = error.message;
+      this.snackBar.open(error.error.title, 'Close');
+      Object.entries(error.error.errors).forEach(([key, value]: [any, any]) => {
+        console.log(value[0]);
+        errorMessages.push(value[0]);
+      });
+      return throwError(() => {
+        return errorMessages;
+      });
     }
-    this.snackBar.open(errorMessage, 'Close');
-    return throwError(() => {
-      return errorMessage;
-    });
   }
 }
