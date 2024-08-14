@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SignUpModel } from './shared/sign-up-model';
 import { Observable, catchError, retry, throwError, of } from 'rxjs';
 import { environment } from '../environments/environment';
+import { ISignIn } from './shared/isign-in';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class AuthService {
     return this.http.post(environment.apiUrl + '/api/identity/register', newSignUp).pipe(catchError(this.handleError.bind(this)));
   }
 
+  signinUser(newSignIn: ISignIn): Observable<any> {
+    return this.http.post(environment.apiUrl + "/api/identity/login", newSignIn).pipe(catchError(this.handleError));
+  }
+
   // Error handling
   handleError(error: HttpErrorResponse) {
     //console.log(error);
@@ -23,7 +28,7 @@ export class AuthService {
     let errorMessages: string[] = [];
     if (error.status === 0) {
       //errorMessage = error.error;
-      this.snackBar.open(error.error, 'Close');
+      this.snackBar.open(error.statusText, 'Close');
       return of();
     } else {
       // Get server-side error
