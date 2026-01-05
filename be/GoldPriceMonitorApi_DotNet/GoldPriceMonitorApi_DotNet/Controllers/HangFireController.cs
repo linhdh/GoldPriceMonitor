@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {
-    [EnableCors("MyCORSPolicy")]
+    //[EnableCors("MyCORSPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class HangFireController : ControllerBase

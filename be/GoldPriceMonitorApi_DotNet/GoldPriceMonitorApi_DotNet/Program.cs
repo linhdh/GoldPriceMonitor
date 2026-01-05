@@ -25,7 +25,7 @@ namespace GoldPriceMonitorApi_DotNet
             // Add services to the container.
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy(name: "MyCORSPolicy", policy =>
+                options.AddDefaultPolicy(policy =>
                 {
                     policy.WithOrigins("http://localhost:4200", "http://b3.myddns.me:4300", "http://192.168.100.200:4300").AllowAnyHeader().AllowAnyMethod();
                 });

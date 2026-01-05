@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {
-    [EnableCors("MyCORSPolicy")]
+    //[EnableCors("MyCORSPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class SjcsController : ControllerBase

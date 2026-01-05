@@ -13,7 +13,7 @@ using BaoTinMinhChau = GoldPriceMonitorApi_DotNet.Controllers.Parameters.BaoTinM
 
 namespace GoldPriceMonitorApi_DotNet.Controllers
 {
-    [EnableCors("MyCORSPolicy")]
+    //[EnableCors("MyCORSPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class BaoTinMinhChausController : ControllerBase
